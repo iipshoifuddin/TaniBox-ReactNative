@@ -1,11 +1,7 @@
 import React from 'react';
-import {
-  ActivityIndicator,
-  AsyncStorage,
-  StatusBar,
-  StyleSheet,
-  View,
-} from 'react-native';
+import {View, Image} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import {GREEN} from 'react-native-dotenv';
 
 class AuthLoadingScreen extends React.Component {
   componentDidMount() {
@@ -25,12 +21,29 @@ class AuthLoadingScreen extends React.Component {
   // Render any loading content that you like here
   render() {
     return (
-      <View>
-        <ActivityIndicator />
-        <StatusBar barStyle="default" />
+      <View style={styles.viewStyles}>
+        <Image
+          source={require('../public/images/TaniBoxLogo.png')}
+          style={[styles.box]}
+          resizeMode="cover"
+        />
       </View>
     );
   }
 }
 
-export default (AuthLoadingScreen)
+const styles = {
+  viewStyles: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#68CAA2',
+  },
+  box: {
+    width: '55%',
+    height: '30%',
+    alignItems: 'flex-start',
+  },
+};
+
+export default AuthLoadingScreen;

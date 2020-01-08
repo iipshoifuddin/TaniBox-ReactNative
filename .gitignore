@@ -1,5 +1,6 @@
 # OSX
 #
+tmpnodejsnpm-cache
 .DS_Store
 .env
 # Xcode
