@@ -19,7 +19,7 @@ const s = StyleSheet.create({
   },
   img: {
     width: wp('80%'),
-    height: hp('40%'),
+    height: hp('36%'),
   },
   primaryColor: {
     color: color.secondary,
@@ -103,7 +103,7 @@ const s = StyleSheet.create({
     paddingTop: 36,
   },
   pb8: {
-    paddingBottom: 36 * 2,
+    paddingBottom: 55,
   },
   py4: {
     paddingVertical: 36,

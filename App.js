@@ -14,15 +14,23 @@ import Notification from './src/screens/Notification';
 import Cart from './src/screens/Cart';
 import DetailProduct from './src/screens/DetailProduct';
 
-const HomeStack = createStackNavigator({Home: Home});
-const DetailStack = createStackNavigator({
-  DetailProduct: {
+const HomeStack = createStackNavigator({
+  Home,
+  Detail:{
     screen: DetailProduct,
     navigationOptions: {
       headerShown: false,
-    },
-  },
+    }
+  }
 });
+// const DetailStack = createStackNavigator({
+//   DetailProduct: {
+//     screen: DetailProduct,
+//     navigationOptions: {
+//       headerShown: false,
+//     },
+//   },
+// });
 const WishlistStack = createStackNavigator({Wishlist: Wishlist});
 const CartStack = createStackNavigator({Cart: Cart});
 const NotificationStack = createStackNavigator({
@@ -85,7 +93,7 @@ export default createAppContainer(
       AuthLoading: AuthLoading,
       Auth: AuthStack,
       App,
-      DetailProduct: DetailStack,
+      // DetailProduct: DetailStack,
     },
     {
       initialRouteName: 'Auth',

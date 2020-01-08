@@ -32,12 +32,10 @@ class HomeScreen extends Component {
         items={items}
         style={styles.gridView}
         renderItem={({item, index}) => (
-          <View style={[styles.itemContainer, {backgroundColor: item.code}]}>
-            <Text
-              style={styles.itemName}
-              onPress={() => this.props.navigation.navigate('DetailProduct')}>
-              {item.name}
-            </Text>
+          <View
+            onTouchStart={() => this.props.navigation.navigate('Detail')}
+            style={[styles.itemContainer, {backgroundColor: item.code}]}>
+            <Text style={styles.itemName}>{item.name}</Text>
             <Text style={styles.itemCode}>{item.price}</Text>
           </View>
         )}
