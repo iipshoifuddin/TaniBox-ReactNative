@@ -66,7 +66,7 @@ const RootStack = createBottomTabNavigator(
           iconName = 'ios-home';
         } else if (routeName === 'Profile') {
           iconName = 'ios-contact';
-        } else if (routeName === 'Wishlist') {
+        } else if (routeName === 'wishlist') {
           iconName = 'ios-heart';
         } else if (routeName === 'cart') {
           iconName = 'ios-cart';
