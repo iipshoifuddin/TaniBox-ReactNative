@@ -27,7 +27,7 @@ const SignInScreen = props => {
           <View>
             <H1 style={[s.textCenter, s.header, s.primaryColor]}>Login Here</H1>
             <View style={s.section}>
-              <Text style={s.primaryColor}>Email</Text>
+              <Text style={s.primaryColor}>Username or email</Text>
               <TextInput
                 style={s.input}
                 placeholder="kepler"
@@ -71,9 +71,8 @@ const SignInScreen = props => {
 };
 
 SignInScreen.navigationOptions = {
-  header: null,
+  headerShown: false,
 };
 
 // this.props.navigation.navigate('App');
-// this.props.navigation.navigate('SignUp');
 export default SignInScreen;
