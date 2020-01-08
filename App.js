@@ -88,7 +88,7 @@ export default createAppContainer(
       DetailProduct: DetailStack,
     },
     {
-      initialRouteName: 'AuthLoading',
+      initialRouteName: 'Auth',
     },
   ),
 );
