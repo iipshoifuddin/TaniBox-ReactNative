@@ -10,6 +10,10 @@ const s = StyleSheet.create({
     width: wp('100%'),
     flex: 1,
   },
+  centerRotate: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   banner: {
     borderBottomLeftRadius: 36,
     borderBottomRightRadius: 36,

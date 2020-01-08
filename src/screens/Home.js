@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {FlatGrid} from 'react-native-super-grid';
 
 class HomeScreen extends Component {
@@ -32,12 +32,12 @@ class HomeScreen extends Component {
         items={items}
         style={styles.gridView}
         renderItem={({item, index}) => (
-          <View
-            onTouchStart={() => this.props.navigation.navigate('Detail')}
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('Detail')}
             style={[styles.itemContainer, {backgroundColor: item.code}]}>
             <Text style={styles.itemName}>{item.name}</Text>
             <Text style={styles.itemCode}>{item.price}</Text>
-          </View>
+          </TouchableOpacity>
         )}
       />
     );

@@ -14,7 +14,7 @@ const SignInScreen = props => {
     error: false,
   });
   return (
-    <Container>
+    <Container style={s.centerRotate}>
       <ScrollView>
         <View style={s.container}>
           <View style={[s.primaryBgColor, s.banner, s.jcCenter]}>

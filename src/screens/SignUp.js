@@ -19,7 +19,7 @@ const SignUpScreen = props => {
   let [PickerItem, setPickerItem] = useState('');
 
   return (
-    <Container style={s.primaryBgColor}>
+    <Container style={[s.centerRotate]}>
       <ScrollView>
         <View style={s.container}>
           <View>

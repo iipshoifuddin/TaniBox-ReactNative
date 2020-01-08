@@ -18,7 +18,7 @@ export default class DetailProduct extends Component {
           <Body>
             <Text>isi</Text>
           </Body>
-          <Right></Right>
+          <Right />
         </Header>
         <Container style={styles.container}>
           <View>
