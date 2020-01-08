@@ -4,25 +4,34 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import AuthLoadingScreen from './src/pages/AuthLoadingScreen';
-import SignInScreen from './src/pages/SignInScreen';
-import SignUpScreen from './src/pages/SignUpScreen';
-import HomeScreen from './src/pages/HomeScreen';
-import ProfileScreen from './src/pages/ProfileScreen';
-import WishlistScreen from './src/pages/WishlistScreen';
-import NotificationScreen from './src/pages/NotificationScreen';
-import CartScreen from './src/pages/CartScreen';
+import AuthLoading from './src/screens/AuthLoading';
+import SignIn from './src/screens/SignIn';
+import SignUp from './src/screens/SignUp';
+import Home from './src/screens/Home';
+import Profile from './src/screens/Profile';
+import Wishlist from './src/screens/Wishlist';
+import Notification from './src/screens/Notification';
+import Cart from './src/screens/Cart';
+import DetailProduct from './src/screens/DetailProduct';
 
-const HomeStack = createStackNavigator({Home: HomeScreen});
-const WishlistStack = createStackNavigator({Wishlist: WishlistScreen});
-const CartStack = createStackNavigator({Cart: CartScreen});
-const NotificationStack = createStackNavigator({
-  Notification: NotificationScreen,
+const HomeStack = createStackNavigator({Home: Home});
+const DetailStack = createStackNavigator({
+  DetailProduct: {
+    screen: DetailProduct,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
 });
-const ProfileStack = createStackNavigator({Profile: ProfileScreen});
+const WishlistStack = createStackNavigator({Wishlist: Wishlist});
+const CartStack = createStackNavigator({Cart: Cart});
+const NotificationStack = createStackNavigator({
+  Notification: Notification,
+});
+const ProfileStack = createStackNavigator({Profile: Profile});
 const AuthStack = createStackNavigator({
-  SignIn: SignInScreen,
-  SignUp: SignUpScreen,
+  SignIn: SignIn,
+  SignUp: SignUp,
 });
 
 // const RootStack = createMaterialBottomTabNavigator({
@@ -73,9 +82,10 @@ const App = createAppContainer(RootStack);
 export default createAppContainer(
   createSwitchNavigator(
     {
-      AuthLoading: AuthLoadingScreen,
+      AuthLoading: AuthLoading,
       Auth: AuthStack,
       App,
+      DetailProduct: DetailStack,
     },
     {
       initialRouteName: 'AuthLoading',

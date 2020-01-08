@@ -5,7 +5,7 @@ export default class DetailProduct extends Component {
   render() {
     return (
       <View>
-        <Text> DetailProduct </Text>
+        <Text> iki DetailProduct </Text>
       </View>
     );
   }
