@@ -1,18 +1,24 @@
-import React from 'react'
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import React from 'react';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Provider} from 'react-redux';
+import {store, persistor} from './src/public/redux/store';
+import {PersistGate} from 'redux-persist/es/integration/react';
 
-import AuthLoadingScreen from './src/pages/AuthLoadingScreen'
-import SignInScreen from './src/pages/SignInScreen'
-import SignUpScreen from './src/pages/SignUpScreen'
-import HomeScreen from './src/pages/HomeScreen'
-import ProfileScreen from './src/pages/ProfileScreen'
+import AuthLoadingScreen from './src/pages/AuthLoadingScreen';
+import SignInScreen from './src/pages/SignInScreen';
+import SignUpScreen from './src/pages/SignUpScreen';
+import HomeScreen from './src/pages/HomeScreen';
+import ProfileScreen from './src/pages/ProfileScreen';
 
-const HomeStack = createStackNavigator({ Home: HomeScreen });
-const ProfileStack = createStackNavigator({ Profile: ProfileScreen });
-const AuthStack = createStackNavigator({ SignIn: SignInScreen, SignUp: SignUpScreen });
+const HomeStack = createStackNavigator({Home: HomeScreen});
+const ProfileStack = createStackNavigator({Profile: ProfileScreen});
+const AuthStack = createStackNavigator({
+  SignIn: SignInScreen,
+  SignUp: SignUpScreen,
+});
 
 // const RootStack = createMaterialBottomTabNavigator({
 //   AuthLoading: AuthLoadingScreen,
@@ -50,15 +56,27 @@ const RootStack = createBottomTabNavigator(
 
 const App = createAppContainer(RootStack);
 
-export default createAppContainer(
+const Navigation = createAppContainer(
   createSwitchNavigator(
     {
       AuthLoading: AuthLoadingScreen,
       Auth: AuthStack,
-      App
+      App,
     },
     {
       initialRouteName: 'AuthLoading',
-    }
-  )
+    },
+  ),
 );
+
+export default class NavigationBase extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Navigation />
+        </PersistGate>
+      </Provider>
+    );
+  }
+}
