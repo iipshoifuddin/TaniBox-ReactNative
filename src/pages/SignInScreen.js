@@ -1,13 +1,7 @@
 import React, {useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  ActivityIndicator,
-  Image,
-} from 'react-native';
+import {View, TextInput, Image} from 'react-native';
 import {Container, H1, Text, Button} from 'native-base';
-import color from '../config';
+import s from '../public/styles/login-register';
 
 const SignInScreen = props => {
   const {
@@ -51,17 +45,9 @@ const SignInScreen = props => {
                 onChangeText={text => setPassword(text)}
               />
             </View>
-            <View style={s.section}>
-              <Button
-                rounded
-                style={[s.center, s.primaryBgColor]}
-                disabled={config.loading}
-                onPress={() => alert('Eits, tidak bisa.')}>
-                {config.loading ? (
-                  <ActivityIndicator size="small" color="#3f51b5" />
-                ) : (
-                  <Text style={s.primaryColor}>Login</Text>
-                )}
+            <View style={[s.section, s.center]}>
+              <Button style={s.buttonSignIn} onPress={() => navigate('Home')}>
+                <Text style={s.textButtonSignIn}>Sign In</Text>
               </Button>
             </View>
             <View style={[s.section, s.register]}>
@@ -83,47 +69,6 @@ const SignInScreen = props => {
     </Container>
   );
 };
-
-const s = StyleSheet.create({
-  container: {width: '100%', justifyContent: 'space-between'},
-  banner: {
-    borderBottomLeftRadius: 36,
-    borderBottomRightRadius: 36,
-    padding: 18,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  img: {
-    width: '100%',
-    height: 160,
-  },
-  primaryColor: {color: color.secondary},
-  secondaryColor: {color: color.tertiary},
-  primaryBgColor: {backgroundColor: color.primary},
-  header: {marginTop: 24, marginBottom: 12},
-  register: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  picker: {width: 150, height: 24},
-  section: {marginVertical: 15},
-  input: {
-    borderColor: '#000',
-    borderBottomWidth: 0.5,
-    paddingVertical: 4,
-    fontSize: 18,
-  },
-  px4: {paddingHorizontal: 36},
-  textCenter: {textAlign: 'center'},
-  jcCenter: {justifyContent: 'center'},
-  center: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  wAuto: {width: 'auto'},
-});
 
 SignInScreen.navigationOptions = {
   header: null,
