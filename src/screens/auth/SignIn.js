@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, TextInput, Image, ScrollView} from 'react-native';
 import {Container, H1, Text, Button} from 'native-base';
-import s from '../public/styles/login-register';
+import s from '../../public/styles/login-register';
 
 const SignInScreen = props => {
   const {
@@ -19,7 +19,7 @@ const SignInScreen = props => {
         <View style={s.container}>
           <View style={[s.primaryBgColor, s.banner, s.jcCenter]}>
             <Image
-              source={require('../public/images/login.png')}
+              source={require('../../public/images/login.png')}
               resizeMode="contain"
               style={s.img}
             />

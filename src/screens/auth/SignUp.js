@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {View, TextInput, ActivityIndicator, ScrollView} from 'react-native';
 import {Container, H1, Text, Button, Picker, Icon} from 'native-base';
-import s from '../public/styles/login-register';
-import color from '../config';
+import s from '../../public/styles/login-register';
+import color from '../../config';
 
 const SignUpScreen = props => {
   const {
@@ -42,7 +42,7 @@ const SignUpScreen = props => {
                 <TextInput
                   keyboardType="email-address"
                   style={[s.input, s.lightBorder]}
-                  placeholderTextColor={color.light}
+                  placeholderTextColor={color.placeholder}
                   placeholder="kepler@mail.com"
                   value={email}
                   onChangeText={text => setEmail(text)}
@@ -52,7 +52,7 @@ const SignUpScreen = props => {
                 <Text style={s.primaryColor}>Password</Text>
                 <TextInput
                   secureTextEntry={true}
-                  placeholderTextColor={color.light}
+                  placeholderTextColor={color.placeholder}
                   style={[s.input, s.lightBorder]}
                   placeholder="***"
                   value={password}

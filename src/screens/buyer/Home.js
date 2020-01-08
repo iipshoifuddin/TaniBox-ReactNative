@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {FlatGrid} from 'react-native-super-grid';
+import {Header, Left, Body, Right, Container} from 'native-base';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 class HomeScreen extends Component {
   render() {
@@ -27,19 +29,34 @@ class HomeScreen extends Component {
       {id: '20', name: 'ASBESTOS', code: '#7f8c8d', price: 'Rp.30.000'},
     ];
     return (
-      <FlatGrid
-        itemDimension={130}
-        items={items}
-        style={styles.gridView}
-        renderItem={({item, index}) => (
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Detail')}
-            style={[styles.itemContainer, {backgroundColor: item.code}]}>
-            <Text style={styles.itemName}>{item.name}</Text>
-            <Text style={styles.itemCode}>{item.price}</Text>
-          </TouchableOpacity>
-        )}
-      />
+      <>
+        <Header style={styles.header}>
+          <Left>
+            <Ionicons
+              onPress={() => this.props.navigation.navigate('Home')}
+              size={40}
+              name={'ios-arrow-round-back'}
+            />
+          </Left>
+          <Body></Body>
+          <Right />
+        </Header>
+        <Container style={styles.container}>
+          <FlatGrid
+            itemDimension={130}
+            items={items}
+            style={styles.gridView}
+            renderItem={({item, index}) => (
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate('Detail')}
+                style={[styles.itemContainer, {backgroundColor: item.code}]}>
+                <Text style={styles.itemName}>{item.name}</Text>
+                <Text style={styles.itemCode}>{item.price}</Text>
+              </TouchableOpacity>
+            )}
+          />
+        </Container>
+      </>
     );
   }
 }
@@ -63,6 +80,12 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 12,
     color: '#fff',
+  },
+  header: {
+    backgroundColor: '#FFFFFF',
+  },
+  container: {
+    backgroundColor: '#FFFFFF',
   },
 });
 

@@ -4,33 +4,31 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import AuthLoading from './src/screens/AuthLoading';
-import SignIn from './src/screens/SignIn';
-import SignUp from './src/screens/SignUp';
-import Home from './src/screens/Home';
-import Profile from './src/screens/Profile';
-import Wishlist from './src/screens/Wishlist';
-import Notification from './src/screens/Notification';
-import Cart from './src/screens/Cart';
-import DetailProduct from './src/screens/DetailProduct';
+import AuthLoading from './src/screens/auth/AuthLoading';
+import SignIn from './src/screens/auth/SignIn';
+import SignUp from './src/screens/auth/SignUp';
+import Home from './src/screens/buyer/Home';
+import Profile from './src/screens/buyer/Profile';
+import Wishlist from './src/screens/buyer/Wishlist';
+import Notification from './src/screens/buyer/Notification';
+import Cart from './src/screens/buyer/Cart';
+import DetailProduct from './src/screens/product/DetailProduct';
 
 const HomeStack = createStackNavigator({
-  Home,
-  Detail:{
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  Detail: {
     screen: DetailProduct,
     navigationOptions: {
       headerShown: false,
-    }
-  }
+    },
+  },
 });
-// const DetailStack = createStackNavigator({
-//   DetailProduct: {
-//     screen: DetailProduct,
-//     navigationOptions: {
-//       headerShown: false,
-//     },
-//   },
-// });
+
 const WishlistStack = createStackNavigator({Wishlist: Wishlist});
 const CartStack = createStackNavigator({Cart: Cart});
 const NotificationStack = createStackNavigator({
@@ -42,17 +40,11 @@ const AuthStack = createStackNavigator({
   SignUp: SignUp,
 });
 
-// const RootStack = createMaterialBottomTabNavigator({
-//   AuthLoading: AuthLoadingScreen,
-//   App: AppStack,
-//   Auth: AuthStack,
-// });
-
 const RootStack = createBottomTabNavigator(
   {
     Home: HomeStack,
-    wishlist: WishlistStack,
-    cart: CartStack,
+    Wishlist: WishlistStack,
+    Cart: CartStack,
     Notification: NotificationStack,
     Profile: ProfileStack,
   },
@@ -66,9 +58,9 @@ const RootStack = createBottomTabNavigator(
           iconName = 'ios-home';
         } else if (routeName === 'Profile') {
           iconName = 'ios-contact';
-        } else if (routeName === 'wishlist') {
+        } else if (routeName === 'Wishlist') {
           iconName = 'ios-heart';
-        } else if (routeName === 'cart') {
+        } else if (routeName === 'Cart') {
           iconName = 'ios-cart';
         } else if (routeName === 'Notification') {
           iconName = 'ios-notifications';
@@ -93,7 +85,6 @@ export default createAppContainer(
       AuthLoading: AuthLoading,
       Auth: AuthStack,
       App,
-      // DetailProduct: DetailStack,
     },
     {
       initialRouteName: 'Auth',
