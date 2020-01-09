@@ -15,6 +15,7 @@ import Profile from './src/screens/buyer/Profile';
 import Wishlist from './src/screens/buyer/Wishlist';
 import Notification from './src/screens/buyer/Notification';
 import Cart from './src/screens/buyer/Cart';
+import CheckOut from './src/screens/buyer/CheckOut';
 import DetailProduct from './src/screens/product/DetailProduct';
 
 const HomeStack = createStackNavigator({
@@ -33,7 +34,8 @@ const HomeStack = createStackNavigator({
 });
 
 const WishlistStack = createStackNavigator({Wishlist: Wishlist});
-const CartStack = createStackNavigator({Cart: Cart});
+const CartStack = createStackNavigator({Cart, CheckOut});
+// const CheckOutStack = createStackNavigator({CheckOut});
 const NotificationStack = createStackNavigator({
   Notification: Notification,
 });
