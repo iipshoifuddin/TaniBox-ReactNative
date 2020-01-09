@@ -1,4 +1,5 @@
 import React from 'react';
+import {Root} from 'native-base';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
@@ -10,6 +11,8 @@ import {PersistGate} from 'redux-persist/es/integration/react';
 import AuthLoading from './src/screens/auth/AuthLoading';
 import SignIn from './src/screens/auth/SignIn';
 import SignUp from './src/screens/auth/SignUp';
+import ForgotPassword from './src/screens/auth/ForgotPassword';
+import ResetPassword from './src/screens/auth/ResetPassword';
 import Home from './src/screens/buyer/Home';
 import Profile from './src/screens/buyer/Profile';
 import Wishlist from './src/screens/buyer/Wishlist';
@@ -40,8 +43,10 @@ const NotificationStack = createStackNavigator({
 });
 const ProfileStack = createStackNavigator({Profile: Profile});
 const AuthStack = createStackNavigator({
-  SignIn: SignIn,
-  SignUp: SignUp,
+  SignIn,
+  SignUp,
+  ForgotPassword,
+  ResetPassword,
 });
 
 const RootStack = createBottomTabNavigator(
@@ -99,11 +104,13 @@ const Navigation = createAppContainer(
 export default class NavigationBase extends React.Component {
   render() {
     return (
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <Navigation />
-        </PersistGate>
-      </Provider>
+      <Root>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Navigation />
+          </PersistGate>
+        </Provider>
+      </Root>
     );
   }
 }

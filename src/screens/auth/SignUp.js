@@ -1,23 +1,62 @@
 import React, {useState} from 'react';
-import {View, TextInput, ActivityIndicator, ScrollView} from 'react-native';
+import {
+  View,
+  TextInput,
+  ActivityIndicator,
+  ScrollView,
+  TouchableHighlight,
+} from 'react-native';
 import {Container, H1, Text, Button, Picker, Icon} from 'native-base';
 import s from '../../public/styles/login-register';
 import color from '../../config';
+import sColor from '../../public/styles/color';
+import {toastr} from '../../helpers/script';
+import axios from 'axios';
+import {API_ENDPOINT} from 'react-native-dotenv';
 
 const SignUpScreen = props => {
   const {
     navigation: {goBack},
   } = props;
-  // let [role, setRole] = useState('buyer');
+  let [role, setRole] = useState('buyer');
   let [username, setUsername] = useState('');
   let [email, setEmail] = useState('');
   let [password, setPassword] = useState('');
+  let [confirmPassword, setConfirmPassword] = useState('');
   let [config, setConfig] = useState({
     loading: false,
     error: false,
   });
-  let [PickerItem, setPickerItem] = useState('');
-
+  const handleSubmit = () => {
+    if (!username || !email || !password || !confirmPassword) {
+      toastr('Please fill out all of this field.', 'danger');
+      return;
+    }
+    if (password !== confirmPassword) {
+      toastr("Confirm password doesn't match.", 'danger');
+      return;
+    }
+    setConfig({loading: true, error: false});
+    axios
+      .post(`${API_ENDPOINT}auth/register`, {
+        name: username,
+        email,
+        password,
+        role,
+      })
+      .then(() => {
+        setConfig({loading: false, error: false});
+        toastr(
+          'Your account successfully registered. You can login now!',
+          'success',
+        );
+        goBack();
+      })
+      .catch(() => {
+        setConfig({loading: false, error: true});
+        toastr('Username or email already registered', 'danger');
+      });
+  };
   return (
     <Container style={[s.centerRotate]}>
       <ScrollView>
@@ -30,7 +69,7 @@ const SignUpScreen = props => {
               <View style={s.section}>
                 <Text style={s.primaryColor}>Username</Text>
                 <TextInput
-                  style={[s.input, s.lightBorder]}
+                  style={[s.input, s.lightBorder, sColor.lightColor]}
                   placeholderTextColor={color.light}
                   placeholder="kepler"
                   value={username}
@@ -41,7 +80,7 @@ const SignUpScreen = props => {
                 <Text style={s.primaryColor}>Email</Text>
                 <TextInput
                   keyboardType="email-address"
-                  style={[s.input, s.lightBorder]}
+                  style={[s.input, s.lightBorder, sColor.lightColor]}
                   placeholderTextColor={color.placeholder}
                   placeholder="kepler@mail.com"
                   value={email}
@@ -53,7 +92,7 @@ const SignUpScreen = props => {
                 <TextInput
                   secureTextEntry={true}
                   placeholderTextColor={color.placeholder}
-                  style={[s.input, s.lightBorder]}
+                  style={[s.input, s.lightBorder, sColor.lightColor]}
                   placeholder="***"
                   value={password}
                   onChangeText={text => setPassword(text)}
@@ -64,22 +103,22 @@ const SignUpScreen = props => {
                 <TextInput
                   secureTextEntry={true}
                   placeholderTextColor={color.light}
-                  style={[s.input, s.lightBorder]}
+                  style={[s.input, s.lightBorder, sColor.lightColor]}
                   placeholder="***"
-                  value={password}
-                  onChangeText={text => setPassword(text)}
+                  value={confirmPassword}
+                  onChangeText={text => setConfirmPassword(text)}
                 />
               </View>
               <View style={s.section}>
                 <Picker
                   mode="dropdown"
-                  selectedValue={PickerItem}
-                  onValueChange={value => setPickerItem(value)}
+                  selectedValue={role}
+                  onValueChange={value => setRole(value)}
                   iosHeader="Select your SIM"
-                  style={{color: '#FFFFFF'}}
+                  style={sColor.lightColor}
                   iosIcon={<Icon name="arrow-down" color={'white'} />}>
-                  <Picker.Item label="Seller" value="key1" />
-                  <Picker.Item label="Buyer" value="key2" />
+                  <Picker.Item label="Buyer" value="buyer" />
+                  <Picker.Item label="Seller" value="seller" />
                 </Picker>
               </View>
               <View style={[s.section, s.center]}>
@@ -87,19 +126,19 @@ const SignUpScreen = props => {
                   bordered
                   light
                   style={s.buttonSignIn}
-                  onPress={() => alert('Eits, tidak bisa.')}>
+                  onPress={handleSubmit}>
                   {config.loading ? (
-                    <ActivityIndicator size="small" color="#3f51b5" />
+                    <ActivityIndicator size="large" color={color.light} />
                   ) : (
                     <Text style={s.textButtonSignIn}>Sign Up</Text>
                   )}
                 </Button>
               </View>
-              <View style={[s.section, s.register]}>
-                <Text style={s.lightColor}>Already have an account?</Text>
-                <Button info transparent onPress={() => goBack()}>
-                  <Text style={s.secondaryColor}>Login</Text>
-                </Button>
+              <View style={[s.section, s.register, s.flexCenter]}>
+                <Text style={s.lightColor}>Already have an account? </Text>
+                <TouchableHighlight onPress={() => goBack()}>
+                  <Text style={s.secondaryColor}> Login</Text>
+                </TouchableHighlight>
               </View>
             </View>
           </View>
