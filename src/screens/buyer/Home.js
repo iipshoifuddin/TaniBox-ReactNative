@@ -38,7 +38,7 @@ class HomeScreen extends Component {
               name={'ios-arrow-round-back'}
             />
           </Left>
-          <Body></Body>
+          <Body />
           <Right />
         </Header>
         <Container style={styles.container}>
