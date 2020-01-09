@@ -10,8 +10,10 @@ const s = StyleSheet.create({
   lightColor: {color: color.light},
   lightGrayColor: {color: color.lightGray},
   paleGrayColor: {color: color.paleGray},
+
   primaryBgColor: {backgroundColor: color.primary},
   secondaryBgColor: {backgroundColor: color.secondary},
+  regularGrayBgColor: {backgroundColor: color.regularGray},
   grayBgColor: {backgroundColor: color.gray},
   lightBgColor: {backgroundColor: color.light},
 });

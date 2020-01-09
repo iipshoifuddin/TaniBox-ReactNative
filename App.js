@@ -35,7 +35,6 @@ const HomeStack = createStackNavigator({
 
 const WishlistStack = createStackNavigator({Wishlist: Wishlist});
 const CartStack = createStackNavigator({Cart, CheckOut});
-// const CheckOutStack = createStackNavigator({CheckOut});
 const NotificationStack = createStackNavigator({
   Notification: Notification,
 });

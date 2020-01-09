@@ -55,4 +55,8 @@ const s = StyleSheet.create({
   },
 });
 
+ShoppingCart.navigationOptions = {
+  title: 'Shopping Cart',
+};
+
 export default ShoppingCart;
