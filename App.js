@@ -37,11 +37,12 @@ const AuthStack = createStackNavigator({
 
 const RootStack = createBottomTabNavigator(
   {
+    Profile: ProfileStack,
     Home: HomeStack,
     wishlist: WishlistStack,
     cart: CartStack,
     Notification: NotificationStack,
-    Profile: ProfileStack,
+    
   },
   {
     defaultNavigationOptions: ({navigation}) => ({
@@ -82,7 +83,8 @@ const Navigation = createAppContainer(
       App,
     },
     {
-      initialRouteName: 'AuthLoading',
+      //initialRouteName: 'AuthLoading',
+      initialRouteName: 'App',
     },
   ),
 );
