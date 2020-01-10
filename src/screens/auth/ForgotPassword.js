@@ -52,7 +52,9 @@ const ForgotPassword = props => {
             style={s.img}
           />
         </View>
-        <H3 style={sGlobal.textCenter}>Enter your email to reset password</H3>
+        <H3 style={[sGlobal.textCenter, s.mb_2]}>
+          Enter your email to reset password
+        </H3>
         <Item style={s.inputContainer}>
           <Icon name="mail" />
           <Input

@@ -70,7 +70,7 @@ const SignUpScreen = props => {
                 <Text style={s.primaryColor}>Username</Text>
                 <TextInput
                   style={[s.input, s.lightBorder, sColor.lightColor]}
-                  placeholderTextColor={color.light}
+                  placeholderTextColor={color.lightGray}
                   placeholder="kepler"
                   value={username}
                   onChangeText={text => setUsername(text)}
@@ -81,7 +81,7 @@ const SignUpScreen = props => {
                 <TextInput
                   keyboardType="email-address"
                   style={[s.input, s.lightBorder, sColor.lightColor]}
-                  placeholderTextColor={color.placeholder}
+                  placeholderTextColor={color.lightGray}
                   placeholder="kepler@mail.com"
                   value={email}
                   onChangeText={text => setEmail(text)}
@@ -91,7 +91,7 @@ const SignUpScreen = props => {
                 <Text style={s.primaryColor}>Password</Text>
                 <TextInput
                   secureTextEntry={true}
-                  placeholderTextColor={color.placeholder}
+                  placeholderTextColor={color.lightGray}
                   style={[s.input, s.lightBorder, sColor.lightColor]}
                   placeholder="***"
                   value={password}
@@ -102,7 +102,7 @@ const SignUpScreen = props => {
                 <Text style={s.primaryColor}>Confirm Password</Text>
                 <TextInput
                   secureTextEntry={true}
-                  placeholderTextColor={color.light}
+                  placeholderTextColor={color.lightGray}
                   style={[s.input, s.lightBorder, sColor.lightColor]}
                   placeholder="***"
                   value={confirmPassword}
