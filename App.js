@@ -14,8 +14,9 @@ import SignUp from './src/screens/auth/SignUp';
 import Home from './src/screens/buyer/Home';
 import Profile from './src/screens/buyer/Profile';
 import Wishlist from './src/screens/buyer/Wishlist';
-import Notification from './src/screens/buyer/Notification';
+import Notification from './src/screens/buyer/Notification/Notifications';
 import Cart from './src/screens/buyer/Cart';
+import SingleNotification from './src/screens/buyer/Notification/SingleNotification';
 
 // Product Screens
 import DetailProduct from './src/screens/product/DetailProduct';
@@ -53,7 +54,13 @@ const SellerStack = createStackNavigator({
 const WishlistStack = createStackNavigator({Wishlist: Wishlist});
 const CartStack = createStackNavigator({Cart: Cart});
 const NotificationStack = createStackNavigator({
-  Notification: Notification,
+  Notification: {
+    screen: Notification,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  SingleNotification,
 });
 const ProfileStack = createStackNavigator({Profile: Profile});
 const AuthStack = createStackNavigator({
