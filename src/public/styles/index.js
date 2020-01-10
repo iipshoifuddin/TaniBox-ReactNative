@@ -13,16 +13,25 @@ const flexRow = {
 const s = StyleSheet.create({
   flexRow,
   flexRowSpace: {
-    ...flex,
+    ...flexRow,
     alignContent: 'space-between',
   },
+  flexRowAround: {
+    ...flexRow,
+    justifyContent: 'space-around',
+  },
   flexRowCenter: {
-    ...flex,
+    ...flexRow,
     alignItems: 'center',
   },
   flexRowReverse: {
     ...flex,
     flexDirection: 'row-reverse',
+  },
+  center: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   textCenter: {textAlign: 'center'},
 });

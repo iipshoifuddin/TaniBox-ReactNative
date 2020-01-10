@@ -34,13 +34,11 @@ const ForgotPassword = props => {
     setConfig({loading: true, error: false});
     axios
       .post(`${API_ENDPOINT}auth/forgot-password`, {email})
-      .then(res => {
-        console.log(res.data);
+      .then(() => {
         setConfig({loading: false, error: false});
-        navigation.navigate('ResetPassword');
+        navigation.push('ResetPassword', {email});
       })
-      .catch(err => {
-        console.log(err);
+      .catch(() => {
         setConfig({loading: false, error: true});
         toastr('Network error.');
       });
@@ -65,11 +63,11 @@ const ForgotPassword = props => {
             onChangeText={text => setEmail(text)}
           />
         </Item>
-        <View style={sGlobal.flexRow}>
+        <View style={s.button}>
           <Button
             disabled={config.loading ? true : false}
-            style={[s.button, sColor.secondaryBgColor]}
-            onPress={() => navigation.navigate('ResetPassword')}>
+            style={[s.button, sColor.secondaryBgColor, sGlobal.center]}
+            onPress={handlePress}>
             {config.loading ? (
               <ActivityIndicator size="large" color={color.light} />
             ) : (
@@ -84,7 +82,7 @@ const ForgotPassword = props => {
 
 ForgotPassword.navigationOptions = {
   headerTransparent: true,
-  title: 'Forgot Password',
+  title: null,
 };
 
 export default ForgotPassword;
