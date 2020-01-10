@@ -23,7 +23,6 @@ class ProfileScreen extends Component {
     // await AsyncStorage.clear();
     this.props.navigation.navigate('Auth');
   };
-
 }
 
 export default ProfileScreen;
