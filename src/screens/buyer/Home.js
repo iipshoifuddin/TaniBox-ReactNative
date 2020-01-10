@@ -31,17 +31,12 @@ class HomeScreen extends Component {
     return (
       <>
         <Header style={styles.header}>
-          <Left>
-            <Ionicons
-              onPress={() => this.props.navigation.navigate('Home')}
-              size={40}
-              name={'ios-arrow-round-back'}
-            />
-          </Left>
-          <Body />
-          <Right />
+          <Left />
+          <Body>
+            <Text>Product List</Text>
+          </Body>
         </Header>
-        <Container style={styles.container}>
+        <Container>
           <FlatGrid
             itemDimension={130}
             items={items}
@@ -82,9 +77,6 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   header: {
-    backgroundColor: '#FFFFFF',
-  },
-  container: {
     backgroundColor: '#FFFFFF',
   },
 });
