@@ -5,10 +5,6 @@ import {font} from '../../helpers';
 import sColor from '../../public/styles/color';
 import color from '../../config';
 
-const paymentImg =
-  'https://statik.tempo.co/data/2019/04/23/id_836405/836405_720.jpg';
-const courrirImg =
-  'http://4.bp.blogspot.com/-jbzRwY_okf4/T0CHZ7iXv3I/AAAAAAAAFWY/5RF7fmaCSMc/s1600/LOGO+JNE.png';
 const CheckOut = () => {
   return (
     <Container>
@@ -24,11 +20,11 @@ const CheckOut = () => {
             Payment Method
           </Text>
           <View style={s.flexRow}>
-            <Image
-              source={{uri: paymentImg}}
-              resizeMode="contain"
-              style={s.img}
-            />
+            <View style={s.paymentImg}>
+              <BrandImage uri={require('../../public/images/bca.png')} />
+              <BrandImage uri={require('../../public/images/bri.png')} />
+              <BrandImage uri={require('../../public/images/bni.png')} />
+            </View>
             <Icon name="arrow-forward" />
           </View>
         </View>
@@ -45,11 +41,7 @@ const CheckOut = () => {
             <Text style={[font(19)]}>SiCepat REG - Rp10.000</Text>
             <View style={[s.flexRowReverse]}>
               <Icon name="arrow-forward" style={s.ml_2} />
-              <Image
-                resizeMode="contain"
-                source={{uri: courrirImg}}
-                style={s.img}
-              />
+              <BrandImage uri={require('../../public/images/jne.png')} />
             </View>
           </View>
         </View>
@@ -80,7 +72,8 @@ CheckOut.navigationOptions = {
 };
 
 const s = StyleSheet.create({
-  img: {width: 55, height: 55},
+  paymentImg: {flex: 1, flexDirection: 'row'},
+  img: {width: 60, height: 30},
   footer: {
     position: 'absolute',
     width: '100%',
@@ -121,5 +114,9 @@ const s = StyleSheet.create({
   ml: {marginLeft: 5},
   ml_2: {marginLeft: 10},
 });
+
+const BrandImage = props => {
+  return <Image source={props.uri} resizeMode="contain" style={s.img} />;
+};
 
 export default CheckOut;
