@@ -40,7 +40,7 @@ const ForgotPassword = props => {
       })
       .catch(() => {
         setConfig({loading: false, error: true});
-        toastr('Network error.');
+        toastr('Email not registered.', 'danger');
       });
   };
   return (
