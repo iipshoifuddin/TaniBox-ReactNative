@@ -3,6 +3,9 @@ import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Provider} from 'react-redux';
+import {store, persistor} from './src/public/redux/store';
+import {PersistGate} from 'redux-persist/es/integration/react';
 
 // Buyer Screens
 import AuthLoading from './src/screens/auth/AuthLoading';
@@ -112,7 +115,7 @@ const RootStack = createBottomTabNavigator(useBottom, {
 
 const App = createAppContainer(RootStack);
 
-export default createAppContainer(
+const Navigation = createAppContainer(
   createSwitchNavigator(
     {
       AuthLoading: AuthLoading,
@@ -124,3 +127,15 @@ export default createAppContainer(
     },
   ),
 );
+
+export default class NavigationBase extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Navigation />
+        </PersistGate>
+      </Provider>
+    );
+  }
+}
