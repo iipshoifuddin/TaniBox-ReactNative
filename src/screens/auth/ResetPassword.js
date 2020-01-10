@@ -1,15 +1,12 @@
 import React, {useState} from 'react';
-import {View, Image, ActivityIndicator, Text as TextMedium} from 'react-native';
 import {
-  Container,
-  Content,
-  Text,
-  H3,
-  Input,
-  Button,
-  Item,
-  Icon,
-} from 'native-base';
+  View,
+  Image,
+  ActivityIndicator,
+  TextInput,
+  Text as TextMedium,
+} from 'react-native';
+import {Container, Content, Text, H3, Button, Item, Icon} from 'native-base';
 import color from '../../config';
 import sColor from '../../public/styles/color';
 import sGlobal from '../../public/styles';
@@ -27,6 +24,7 @@ const ResetPassword = ({navigation}) => {
     loading: false,
     error: false,
   });
+  let textInput = {};
   const handlePress = () => {
     const OTPCode = Object.values(OTP).join('');
     if (config.loading) {
@@ -38,12 +36,6 @@ const ResetPassword = ({navigation}) => {
       toastr("Confirm password doesn't match.", 'danger');
       return;
     }
-    console.log({
-      email,
-      OTP: OTPCode,
-      password,
-      password_confirmation: confirmPassword,
-    });
     setConfig({loading: true, error: false});
     axios
       .patch(`${API_ENDPOINT}auth/update-password`, {
@@ -52,30 +44,22 @@ const ResetPassword = ({navigation}) => {
         password,
         password_confirmation: confirmPassword,
       })
-      .then(res => {
-        console.log(res.data);
+      .then(() => {
         setConfig({loading: false, error: false});
         toastr('Password successfully changed. Login now!', 'success');
-        navigation.navigate('SignUp');
+        navigation.navigate('SignIn');
       })
-      .catch(err => {
-        console.log(err);
+      .catch(() => {
         setConfig({loading: false, error: true});
         toastr('Invalid verification code.', 'danger');
       });
   };
-  const InputCode = ({code, handleChange}) => (
-    <View style={[s.verifCode, sGlobal.center]}>
-      <Input
-        selectTextOnFocus
-        maxLength={1}
-        keyboardType="number-pad"
-        style={s.inputCode}
-        value={code}
-        onChangeText={handleChange}
-      />
-    </View>
-  );
+  const onChangeCode = (target, text, callback) => {
+    setOTP({...OTP, [target]: text});
+    if (text.length === 1) {
+      callback();
+    }
+  };
   return (
     <Container>
       <Content padder>
@@ -90,37 +74,73 @@ const ResetPassword = ({navigation}) => {
           We have sent a verification code on your email.
         </TextMedium>
         <View style={[sGlobal.flexRowCenter, s.mb_2]}>
-          <InputCode
-            code={OTP.one}
-            handleChange={text => setOTP({...OTP, one: text})}
-          />
-          <InputCode
-            code={OTP.two}
-            handleChange={text => setOTP({...OTP, two: text})}
-          />
-          <InputCode
-            code={OTP.three}
-            handleChange={text => setOTP({...OTP, three: text})}
-          />
-          <InputCode
-            code={OTP.four}
-            handleChange={text => setOTP({...OTP, four: text})}
-          />
+          <View style={[s.verifCode, sGlobal.center]}>
+            <TextInput
+              selectTextOnFocus
+              maxLength={1}
+              keyboardType="number-pad"
+              style={s.inputCode}
+              value={OTP.one}
+              onChangeText={text =>
+                onChangeCode('one', text, () => textInput.two.focus())
+              }
+            />
+          </View>
+          <View style={[s.verifCode, sGlobal.center]}>
+            <TextInput
+              selectTextOnFocus
+              maxLength={1}
+              keyboardType="number-pad"
+              style={s.inputCode}
+              value={OTP.two}
+              ref={input => (textInput.two = input)}
+              onChangeText={text =>
+                onChangeCode('two', text, () => textInput.three.focus())
+              }
+            />
+          </View>
+          <View style={[s.verifCode, sGlobal.center]}>
+            <TextInput
+              selectTextOnFocus
+              maxLength={1}
+              keyboardType="number-pad"
+              style={s.inputCode}
+              value={OTP.three}
+              ref={input => (textInput.three = input)}
+              onChangeText={text =>
+                onChangeCode('three', text, () => textInput.four.focus())
+              }
+            />
+          </View>
+          <View style={[s.verifCode, sGlobal.center]}>
+            <TextInput
+              selectTextOnFocus
+              maxLength={1}
+              keyboardType="number-pad"
+              style={s.inputCode}
+              value={OTP.four}
+              ref={input => (textInput.four = input)}
+              onChangeText={text =>
+                onChangeCode('four', text, () => textInput.password.focus())
+              }
+            />
+          </View>
         </View>
         <View style={s.inputContainer}>
           <Item>
             <Icon name="key" />
-            <Input
+            <TextInput
               secureTextEntry={true}
               placeholder="New password"
               style={s.input}
               value={password}
+              ref={input => (textInput.password = input)}
               onChangeText={text => setPassword(text)}
             />
           </Item>
           <Item>
             <Icon name="key" />
-            <Input
+            <TextInput
               secureTextEntry={true}
               placeholder="Confirm password"
               style={s.input}

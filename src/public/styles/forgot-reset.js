@@ -6,12 +6,16 @@ const s = StyleSheet.create({
     marginHorizontal: 10,
     marginTop: 5,
   },
+  input: {
+    fontSize: 18,
+  },
   inputCode: {
     width: 32,
     borderColor: color.primary,
     borderBottomWidth: 0.7,
     textAlign: 'center',
     paddingHorizontal: 5,
+    fontSize: 24,
   },
   img: {width: 125, height: 125},
   inputContainer: {
