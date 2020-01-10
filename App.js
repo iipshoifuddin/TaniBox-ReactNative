@@ -82,7 +82,7 @@ const buyerBottom = {
   Profile: ProfileStack,
 };
 
-const role = 'seller';
+const role = 'buyer';
 const useBottom = role === 'buyer' ? buyerBottom : sellerBottom;
 
 const RootStack = createBottomTabNavigator(useBottom, {
