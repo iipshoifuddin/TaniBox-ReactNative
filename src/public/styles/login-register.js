@@ -6,6 +6,7 @@ import {
 } from 'react-native-responsive-screen';
 //Set flex 1, jc: 'around' or 'space-between' for perfect margin or centering to container
 const s = StyleSheet.create({
+  flexCenter: {flex: 1, alignItems: 'center', justifyContent: 'center'},
   container: {
     width: wp('100%'),
     flex: 1,
