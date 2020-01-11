@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "454664016943",
+    "firebase_url": "https://tanibox-264813.firebaseio.com",
+    "project_id": "tanibox-264813",
+    "storage_bucket": "tanibox-264813.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454664016943:android:e4e47b9209a14208cce2da",
+        "android_client_info": {
+          "package_name": "com.tanibox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454664016943-k4vos8cultro0j8o27d3sp6iebn9cs09.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJIjSS0gwFQwNbmso5pzayae4nBF4oPm0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "454664016943-k4vos8cultro0j8o27d3sp6iebn9cs09.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
