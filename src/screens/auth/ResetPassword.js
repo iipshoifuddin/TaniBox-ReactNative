@@ -40,7 +40,7 @@ const ResetPassword = ({navigation}) => {
     axios
       .patch(`${API_ENDPOINT}auth/update-password`, {
         email,
-        OTP,
+        OTP: OTPCode,
         password,
         password_confirmation: confirmPassword,
       })
