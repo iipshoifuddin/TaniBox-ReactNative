@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Button, View} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class ProfileScreen extends Component {
   static navigationOptions = {
@@ -20,7 +21,7 @@ class ProfileScreen extends Component {
   };
 
   _signOutAsync = async () => {
-    // await AsyncStorage.clear();
+    await AsyncStorage.removeItem('token');
     this.props.navigation.navigate('Auth');
   };
 }
