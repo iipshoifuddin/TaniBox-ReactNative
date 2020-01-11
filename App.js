@@ -31,6 +31,8 @@ import HomeSeller from './src/screens/seller/Home';
 import NotificationSeller from './src/screens/seller/Notification';
 import ProfileSeller from './src/screens/seller/Profile';
 
+import {getDataStorage} from './src/helpers/script';
+
 const HomeStack = createStackNavigator({
   Home: {
     screen: Home,
@@ -95,8 +97,11 @@ const buyerBottom = {
   Profile: ProfileStack,
 };
 
-const role = 'buyer';
+let role = '';
+getDataStorage('role', value => (role = value));
 const useBottom = role === 'buyer' ? buyerBottom : sellerBottom;
+console.warn(role);
+console.warn('test');
 
 const RootStack = createBottomTabNavigator(useBottom, {
   defaultNavigationOptions: ({navigation}) => ({
@@ -136,7 +141,7 @@ const Navigation = createAppContainer(
       App,
     },
     {
-      initialRouteName: 'Auth',
+      initialRouteName: 'AuthLoading',
     },
   ),
 );
