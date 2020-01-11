@@ -16,6 +16,7 @@
     "@react-navigation/native": "^5.0.0-alpha.22",
     "axios": "^0.19.0",
     "crawler": "^1.2.1",
+    "exit-on-double-back": "^1.0.1",
     "native-base": "^2.13.8",
     "react": "16.9.0",
     "react-native": "0.61.5",
