@@ -35,7 +35,11 @@ const SignInScreen = props => {
     } catch (err) {
       toastr('Ops, something error');
     }
-    navigate('Home');
+    if (role === 'buyer') {
+      navigate('AppBuyer');
+    } else if (role === 'seller') {
+      navigate('AppSeller');
+    }
   };
   const loginUser = () => {
     if (!email || !password) {

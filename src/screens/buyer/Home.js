@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {FlatGrid} from 'react-native-super-grid';
-import {Header, Left, Body, Right, Container} from 'native-base';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Header, Left, Body, Container} from 'native-base';
 
 class HomeScreen extends Component {
   render() {

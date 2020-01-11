@@ -97,13 +97,37 @@ const buyerBottom = {
   Profile: ProfileStack,
 };
 
-let role = '';
-getDataStorage('role', value => (role = value));
+let role = getDataStorage('role', value => (role = value));
 const useBottom = role === 'buyer' ? buyerBottom : sellerBottom;
-console.warn(role);
-console.warn('test');
 
-const RootStack = createBottomTabNavigator(useBottom, {
+const RootStackBuyer = createBottomTabNavigator(buyerBottom, {
+  defaultNavigationOptions: ({navigation}) => ({
+    tabBarIcon: ({focused, horizontal, tintColor}) => {
+      const {routeName} = navigation.state;
+      let IconComponent = Ionicons;
+      let iconName;
+      if (routeName === 'Home') {
+        iconName = 'ios-home';
+      } else if (routeName === 'Profile') {
+        iconName = 'ios-contact';
+      } else if (routeName === 'Wishlist') {
+        iconName = 'ios-heart';
+      } else if (routeName === 'Cart') {
+        iconName = 'ios-cart';
+      } else if (routeName === 'Notification') {
+        iconName = 'ios-notifications';
+      }
+
+      // You can return any component that you like here!
+      return <IconComponent name={iconName} size={25} color={tintColor} />;
+    },
+  }),
+  tabBarOptions: {
+    activeTintColor: '#68CAA2',
+    inactiveTintColor: 'gray',
+  },
+});
+const RootStackSeller = createBottomTabNavigator(sellerBottom, {
   defaultNavigationOptions: ({navigation}) => ({
     tabBarIcon: ({focused, horizontal, tintColor}) => {
       const {routeName} = navigation.state;
@@ -131,14 +155,16 @@ const RootStack = createBottomTabNavigator(useBottom, {
   },
 });
 
-const App = createAppContainer(RootStack);
+const AppBuyer = createAppContainer(RootStackBuyer);
+const AppSeller = createAppContainer(RootStackSeller);
 
 const Navigation = createAppContainer(
   createSwitchNavigator(
     {
       AuthLoading: AuthLoading,
       Auth: AuthStack,
-      App,
+      AppBuyer,
+      AppSeller,
     },
     {
       initialRouteName: 'AuthLoading',
