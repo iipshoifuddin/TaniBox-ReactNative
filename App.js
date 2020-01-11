@@ -29,7 +29,7 @@ import UploadProduct from './src/screens/product/UploadProduct';
 // Seller Screens
 import HomeSeller from './src/screens/seller/Home';
 import NotificationSeller from './src/screens/seller/Notification';
-import ProfileSeller from './src/screens/seller/Profile';
+import SellerAccount from './src/screens/seller/Account';
 
 import {getDataStorage} from './src/helpers/script';
 
@@ -79,7 +79,7 @@ const NotificationStackSeller = createStackNavigator({
   Notification: NotificationSeller,
 });
 const ProfileStackSeller = createStackNavigator({
-  Profile: ProfileSeller,
+  Profile: SellerAccount,
   Upload: UploadProduct,
 });
 

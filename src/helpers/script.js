@@ -16,12 +16,14 @@ const toastr = (message, type) => {
   });
 };
 
-const sessionCheck = async _ => {
+const sessionCheck = async callback => {
+  let data = 0;
   try {
-    return await AsyncStorage.getAllKeys().length;
+    data = await AsyncStorage.getAllKeys().length;
   } catch (err) {
-    return 0;
+    callback(0);
   }
+  callback(data);
 };
 
 const clearSession = async callback => {
@@ -32,6 +34,19 @@ const clearSession = async callback => {
   }
 
   callback();
+};
+
+const removeDataStorage = async (item, callback) => {
+  try {
+    await AsyncStorage.removeItem(item);
+  } catch (e) {
+    if (typeof callback === 'function') {
+      callback(e);
+    }
+  }
+  if (typeof callback === 'function') {
+    callback(undefined);
+  }
 };
 
 const getDataStorage = async (item, callback) => {
@@ -117,6 +132,7 @@ export {
   //   launchImageLibrary,
   sessionCheck,
   clearSession,
+  removeDataStorage,
   getDataStorage,
   getMultipleDataStorage,
   toastr,
