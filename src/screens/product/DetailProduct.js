@@ -22,18 +22,18 @@ const data = [
     photo:
       'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/2/11/9627105/9627105_08c857a8-c683-4bd5-97b2-f41f37c6b93e_320_320.png',
   },
-  {
-    photo:
-      'https://asset-a.grid.id/crop/0x0:0x0/700x465/photo/2019/03/09/2750049933.jpg',
-  },
-  {
-    photo:
-      'https://awsimages.detik.net.id/community/media/visual/2017/01/14/ad719fe7-4942-433f-840a-13a81e02d017_169.jpeg?w=700&q=80',
-  },
-  {
-    photo:
-      'https://www.seroyamart.com/assets/uploads/600X600/559691363-1522206244.jpg',
-  },
+  // {
+  //   photo:
+  //     'https://asset-a.grid.id/crop/0x0:0x0/700x465/photo/2019/03/09/2750049933.jpg',
+  // },
+  // {
+  //   photo:
+  //     'https://awsimages.detik.net.id/community/media/visual/2017/01/14/ad719fe7-4942-433f-840a-13a81e02d017_169.jpeg?w=700&q=80',
+  // },
+  // {
+  //   photo:
+  //     'https://www.seroyamart.com/assets/uploads/600X600/559691363-1522206244.jpg',
+  // },
 ];
 
 export default class DetailProduct extends Component {

@@ -1,9 +1,43 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {TouchableOpacity, StyleSheet} from 'react-native';
 import {FlatGrid} from 'react-native-super-grid';
-import {Header, Left, Body, Container} from 'native-base';
+import {
+  Header,
+  Container,
+  Item,
+  Input,
+  Icon,
+  Button,
+  View,
+  Form,
+  Picker,
+} from 'native-base';
+import {Overlay, Text} from 'react-native-elements';
+import config from '../../config';
 
 class HomeScreen extends Component {
+  constructor() {
+    super();
+    this.state = {
+      showSearch: false,
+      sortBy: 'name',
+      orderBy: 'ASC',
+      search: '',
+      limit: 5,
+      active: false,
+      overlay: false,
+    };
+  }
+
+  handleFilter = _ => {
+    this.fetchEngineers(
+      this.state.search,
+      this.state.sortBy,
+      this.state.orderBy,
+      this.state.limit,
+    );
+    this.setState({overlay: false});
+  };
   render() {
     const items = [
       {id: '1', name: 'TURQUOISE', code: '#1abc9c', price: 'Rp.30.000'},
@@ -27,13 +61,88 @@ class HomeScreen extends Component {
       {id: '19', name: 'SILVER', code: '#bdc3c7', price: 'Rp.30.000'},
       {id: '20', name: 'ASBESTOS', code: '#7f8c8d', price: 'Rp.30.000'},
     ];
+
     return (
       <>
-        <Header style={styles.header}>
-          <Left />
-          <Body>
-            <Text>Product List</Text>
-          </Body>
+        <Overlay
+          isVisible={this.state.overlay}
+          height="auto"
+          onBackdropPress={() => this.setState({overlay: false})}>
+          <>
+            <Text>Limit</Text>
+            <Form>
+              <Picker
+                mode="dropdown"
+                iosHeader="Sort By"
+                iosIcon={<Icon name="arrow-down" />}
+                style={{width: 200}}
+                selectedValue={this.state.limit}>
+                <Picker.Item label="5" value="5" />
+                <Picker.Item label="10" value="10" />
+                <Picker.Item label="15" value="15" />
+              </Picker>
+            </Form>
+            <Text>Sort By :</Text>
+            <Form>
+              <Picker
+                mode="dropdown"
+                iosHeader="Sort By"
+                iosIcon={<Icon name="arrow-down" />}
+                style={{width: 200}}
+                selectedValue={this.state.sortBy}>
+                <Picker.Item label="Name" value="name" />
+                <Picker.Item label="Skill" value="skill" />
+                <Picker.Item label="Date Updated" value="date_updated" />
+              </Picker>
+            </Form>
+            <Text>Order By :</Text>
+            <Form>
+              <Picker
+                mode="dropdown"
+                iosHeader="Order By"
+                iosIcon={<Icon name="arrow-down" />}
+                style={{width: 200}}
+                selectedValue={this.state.orderBy}>
+                <Picker.Item label="Latest" value="Latest" />
+                <Picker.Item label="Oldest" value="oldest" />
+              </Picker>
+            </Form>
+            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+              <Button
+                onPress={this.handleFilter}
+                style={{
+                  paddingHorizontal: 50,
+                  marginRight: 5,
+                  borderRadius: 10,
+                  backgroundColor: config.secondary,
+                }}>
+                <Text>Apply</Text>
+              </Button>
+              <Button
+                onPress={() => this.setState({overlay: false})}
+                style={{
+                  paddingHorizontal: 20,
+                  marginLeft: 5,
+                  borderRadius: 10,
+                  backgroundColor: config.primary,
+                }}>
+                <Text style={{color: '#ffffff'}}>Cancel</Text>
+              </Button>
+            </View>
+          </>
+        </Overlay>
+        <Header searchBar rounded style={styles.header}>
+          <Item>
+            <Icon name="ios-search" />
+            <Input placeholder="Search" />
+            <Icon
+              name="ios-funnel"
+              onPress={() => this.setState({overlay: true})}
+            />
+          </Item>
+          <Button transparent>
+            <Text>Search</Text>
+          </Button>
         </Header>
         <Container>
           <FlatGrid
