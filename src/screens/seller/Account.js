@@ -12,7 +12,7 @@ import {
   Right,
   Icon,
 } from 'native-base';
-import {removeDataStorage, getDataStorage} from '../../helpers/script';
+import {removeDataStorage, getDataStorage, toastr} from '../../helpers/script';
 import sGlobal from '../../public/styles';
 import sColor from '../../public/styles/color';
 import color from '../../config';
@@ -26,11 +26,11 @@ export default function Profile({navigation: {navigate}}) {
       axios
         .get(`${API_ENDPOINT}profile/${id}`)
         .then(res => {
-          setData(res.data);
+          setData(res.data.data[0]);
         })
         .catch(err => {
-          //Error di backend ngasih 500 not found
           console.log(err);
+          toastr('Ops, network error');
         });
     });
   }, []);
@@ -67,6 +67,12 @@ export default function Profile({navigation: {navigate}}) {
           </ListArrow>
           <ListArrow icon="pin">Address</ListArrow>
           <ListArrow icon="key">Password</ListArrow>
+          <ListArrow
+            icon="ios-close-circle"
+            style={sColor.dangerColor}
+            handlePress={() => alert('Eits, tidak bisa.')}>
+            Delete Account
+          </ListArrow>
           <ListArrow
             icon="log-out"
             last

@@ -129,7 +129,7 @@ export {
   timeConverter,
   validExtension,
   validateImage,
-  //   launchImageLibrary,
+  // launchImageLibrary,
   sessionCheck,
   clearSession,
   removeDataStorage,

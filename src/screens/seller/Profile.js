@@ -1,11 +1,5 @@
-import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text as TextMedium,
-  ImageBackground,
-  Image,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, View, ImageBackground, Image} from 'react-native';
 import {
   Container,
   Content,
@@ -16,15 +10,34 @@ import {
   ListItem,
   Left,
   Right,
-  Label,
   Item,
 } from 'native-base';
 import sColor from '../../public/styles/color';
 import sGlobal from '../../public/styles/';
 import color from '../../config';
+import axios from 'axios';
+import {API_ENDPOINT} from 'react-native-dotenv';
+import {toastr} from '../../helpers/script';
 
 const Profile = ({navigation}) => {
-  //   console.warn(navigation.state.params);
+  let [data, setData] = useState(navigation.state.params);
+  let [config, setConfig] = useState({error: false, loading: false});
+  const handleSubmit = () => {
+    setConfig({loading: true, error: false});
+    axios
+      .put(`${API_ENDPOINT}profile`, {...data, name_of_seller: data.name})
+      .then(res => {
+        console.log(res);
+        setConfig({loading: false, error: false});
+        toastr('Profile successfully updated.', 'success');
+      })
+      .catch(err => {
+        console.log(`${API_ENDPOINT}profile`);
+        console.log(err);
+        setConfig({loading: false, error: true});
+        toastr('Failed to save profile.', 'danger');
+      });
+  };
   return (
     <Container>
       <Content>
@@ -46,9 +59,32 @@ const Profile = ({navigation}) => {
         </View>
         <View>
           <List>
-            <ListInput label="Name" placeholder="Your name" />
-            <ListInput label="Store Name" placeholder="e.g., Toko Segar" />
-            <ListInput label="Phone" placeholder="+62" />
+            <ListInput
+              label="Name"
+              placeholder="Your name"
+              value={data.name}
+              handleChange={text => setData({...data, name: text})}
+            />
+            <ListInput
+              label="Store Name"
+              placeholder="e.g., Toko Segar"
+              value={data.name_of_store}
+              handleChange={text => setData({...data, name_of_store: text})}
+            />
+            <ListInput
+              label="Phone"
+              type="phone-pad"
+              placeholder="+62"
+              value={data.phone}
+              handleChange={text => setData({...data, phone: text})}
+            />
+            <ListInput label="Email">
+              <View style={[s.inputHeight, s.flex]}>
+                <Text ellipsizeMode="tail" numberOfLines={1} style={s.fzInput}>
+                  {data.email}
+                </Text>
+              </View>
+            </ListInput>
             <ListItem style={s._pb}>
               <Item stackedLabel style={[s.noBorderBottom, s._ml]}>
                 <Text style={[s.descriptionText, sColor.regularGrayColor]}>
@@ -57,14 +93,18 @@ const Profile = ({navigation}) => {
                 <Input
                   multiline={true}
                   placeholderTextColor={color.regularGray}
-                  placeholder="Store description"
                   style={s._px}
+                  placeholder="Store description"
+                  value={data.description}
+                  handleChange={text => setData({...data, description: text})}
                 />
               </Item>
             </ListItem>
           </List>
           <View style={s.button}>
-            <Button style={[sGlobal.center, sColor.secondaryBgColor]}>
+            <Button
+              style={[sGlobal.center, sColor.secondaryBgColor]}
+              onPress={handleSubmit}>
               <Text>Save</Text>
             </Button>
           </View>
@@ -74,19 +114,34 @@ const Profile = ({navigation}) => {
   );
 };
 
-const ListInput = ({label, value, handleChange, placeholder}) => {
+const ListInput = ({
+  label,
+  value,
+  handleChange,
+  placeholder,
+  children,
+  disabled = false,
+  type = 'default',
+}) => {
   return (
     <ListItem style={s.listInput}>
       <Left>
         <Text style={sColor.regularGrayColor}>{label}</Text>
       </Left>
-      <Right style={{flex: 1}}>
-        <Input
-          placeholderTextColor={color.regularGray}
-          placeholder={placeholder}
-          value={value}
-          onChangeText={handleChange}
-        />
+      <Right style={s.flex}>
+        {children ? (
+          children
+        ) : (
+          <Input
+            placeholderTextColor={color.regularGray}
+            placeholder={placeholder}
+            disabled={disabled}
+            keyboardType={type}
+            style={s.textRight}
+            value={value}
+            onChangeText={handleChange}
+          />
+        )}
       </Right>
     </ListItem>
   );
@@ -116,6 +171,7 @@ const s = StyleSheet.create({
     height: 25,
   },
   listInput: {
+    flexWrap: 'wrap',
     paddingTop: 0,
     paddingBottom: 0,
   },
@@ -123,6 +179,10 @@ const s = StyleSheet.create({
     paddingLeft: 0,
     paddingRight: 0,
   },
+  inputHeight: {
+    height: 50,
+  },
+  fzInput: {fontSize: 17},
   descriptionText: {
     alignSelf: 'flex-start',
   },
@@ -131,6 +191,8 @@ const s = StyleSheet.create({
     marginTop: 20,
     marginBottom: 15,
   },
+  flex: {flex: 1, justifyContent: 'center'},
+  textRight: {textAlign: 'right'},
   textLeft: {textAlign: 'left'},
   noBorderBottom: {borderBottomWidth: 0},
   _pb: {paddingBottom: 0},
