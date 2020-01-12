@@ -2,12 +2,9 @@ import React, {Component} from 'react';
 import {View, FlatList, RefreshControl, ActivityIndicator} from 'react-native';
 import CardWishlist from './CardWishlist';
 import OneSignal from 'react-native-onesignal';
-import {ONESIGNAL_API_KEY} from 'react-native-dotenv';
+// import {ONESIGNAL_API_KEY} from 'react-native-dotenv';
 import {connect} from 'react-redux';
-import {
-  fetchWishlistAll,
-  deleteWishlist,
-} from '../../../public/redux/actions/Wishlist';
+import {fetchWishlistAll} from '../../../public/redux/actions/Wishlist';
 
 class WishlistScreen extends Component {
   async componentDidMount() {
