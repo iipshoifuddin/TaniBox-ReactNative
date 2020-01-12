@@ -22,6 +22,8 @@ import loadingBlurImage from '../../public/images/loading-blur.jpeg';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import DetailProductItem from '../../components/DetailProductItem';
 
+const DetailProduct = ({ getProduct, product: { product }, navigation }) => {
+
   const product_id = navigation.state.params.product_id
 
   useEffect(() => {
