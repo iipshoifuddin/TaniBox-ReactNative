@@ -17,25 +17,25 @@ import sGlobal from '../../public/styles/';
 import color from '../../config';
 import axios from 'axios';
 import FormData from 'form-data';
-import {API_ENDPOINT} from 'react-native-dotenv';
+import {BASE_URL, API_ENDPOINT} from 'react-native-dotenv';
 import {toastr, showImagePicker} from '../../helpers/script';
 
 const Profile = ({navigation}) => {
   let [data, setData] = useState(navigation.state.params);
   let [config, setConfig] = useState({error: false, loading: false});
-  const headers = {
+  const headers = contentType => ({
     headers: {
-      'content-type': 'application/json',
+      'Content-Type': contentType,
       Authorization: 'Bearer ' + data.token,
     },
-  };
+  });
   const handleSubmit = () => {
     setConfig({loading: true, error: false});
     axios
       .patch(
         `${API_ENDPOINT}profile`,
         {...data, name_of_seller: data.name},
-        headers,
+        headers('application/json'),
       )
       .then(() => {
         setConfig({loading: false, error: false});
@@ -52,33 +52,47 @@ const Profile = ({navigation}) => {
       const form = new FormData();
       form.append('user_id', data.user_id);
       form.append('image', {uri, type, name: fileName});
+      setConfig({loading: true, error: false});
       axios
-        .patch(`${API_ENDPOINT}profile/upload-${photo}`, form, headers)
+        .patch(
+          `${API_ENDPOINT}profile/upload-${photo}`,
+          form,
+          headers('multipart/form-data'),
+        )
         .then(() => {
           setConfig({loading: false, error: false});
           toastr('Profile successfully updated.', 'success');
+          navigation.navigate('Account', {update: Math.random()});
         })
         .catch(() => {
           setConfig({loading: false, error: true});
-          toastr('Failed to save profile.', 'danger');
+          toastr('Failed to save profile. Check your network.', 'danger');
         });
     });
   };
   return (
     <Container>
       <Content>
-        <ImageBackground style={[s.imgCover, sColor.primaryBgColor]}>
-          <Button transparent light style={s.editCover}>
+        <ImageBackground
+          source={{uri: `${BASE_URL}images/store/${data.photo_store}`}}
+          style={[s.imgCover, sColor.primaryBgColor]}>
+          <Button
+            transparent
+            light
+            style={s.editCover}
+            onPress={() => pickImage('store')}>
             <Text>Edit Cover</Text>
           </Button>
         </ImageBackground>
         <View style={sGlobal.center}>
           <ImageBackground
+            source={{uri: `${BASE_URL}images/profile/${data.photo_profile}`}}
+            imageStyle={s.imgProfileStyle}
             style={[s.imgProfile, sGlobal.center, sColor.lightBgColor]}>
             <Button transparent onPress={() => pickImage('seller')}>
               <Image
                 source={require('../../public/images/no-image2.png')}
-                style={s.defaultImg}
+                style={[s.defaultImg, data.photo_profile && s.invisible]}
               />
             </Button>
           </ImageBackground>
@@ -183,6 +197,7 @@ const s = StyleSheet.create({
     bottom: 0,
     right: 0,
   },
+  imgProfileStyle: {borderRadius: 75 / 2},
   imgProfile: {
     width: 75,
     height: 75,
@@ -190,7 +205,6 @@ const s = StyleSheet.create({
     borderRadius: 75 / 2,
     borderColor: color.secondary,
     borderWidth: 2.5,
-    position: 'relative',
   },
   defaultImg: {
     width: 25,
@@ -217,6 +231,7 @@ const s = StyleSheet.create({
     marginTop: 20,
     marginBottom: 15,
   },
+  invisible: {opacity: 0},
   flex: {flex: 1, justifyContent: 'center'},
   textRight: {textAlign: 'right'},
   textLeft: {textAlign: 'left'},
