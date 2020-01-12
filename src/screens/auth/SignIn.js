@@ -14,6 +14,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {toastr} from '../../helpers/script';
 import {API_ENDPOINT} from 'react-native-dotenv';
 import color from '../../config';
+import OneSignal from 'react-native-onesignal';
 
 const SignInScreen = props => {
   const {
@@ -54,6 +55,7 @@ const SignInScreen = props => {
         password,
       })
       .then(res => {
+        // OneSignal.setSubscription(true);
         setConfig({loading: false, error: false});
         storeData(res.data.data);
       })
@@ -62,6 +64,7 @@ const SignInScreen = props => {
         toastr('Incorrect email or password.', 'danger');
       });
   };
+
   return (
     <Container style={s.centerRotate}>
       <ScrollView>
@@ -83,7 +86,7 @@ const SignInScreen = props => {
                 <TextInput
                   keyboardType="email-address"
                   style={s.input}
-                  placeholder="kepler"
+                  placeholder="example@mail.com"
                   value={email}
                   onChangeText={text => setEmail(text)}
                 />

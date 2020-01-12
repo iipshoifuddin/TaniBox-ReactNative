@@ -130,7 +130,7 @@ const Profile = ({navigation}) => {
           <View style={s.button}>
             <Button
               style={[sGlobal.center, sColor.secondaryBgColor]}
-              onPress={handleSubmit}>
+              onPress={handleSubmit}
               <Text>Save</Text>
             </Button>
           </View>
@@ -236,4 +236,6 @@ Profile.navigationOptions = {
   headerTitleStyle: {textAlign: 'center', alignSelf: 'center'},
 };
 
+// hapus cuy
 export default Profile;
+
