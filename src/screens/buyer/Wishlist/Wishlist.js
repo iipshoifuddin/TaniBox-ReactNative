@@ -1,10 +1,19 @@
 import React, {Component} from 'react';
-import {View, FlatList, RefreshControl} from 'react-native';
+import {View, FlatList, RefreshControl, ActivityIndicator} from 'react-native';
 import CardWishlist from './CardWishlist';
 import OneSignal from 'react-native-onesignal';
 import {ONESIGNAL_API_KEY} from 'react-native-dotenv';
+import {connect} from 'react-redux';
+import {
+  fetchWishlistAll,
+  deleteWishlist,
+} from '../../../public/redux/actions/Wishlist';
 
-export default class WishlistScreen extends Component {
+class WishlistScreen extends Component {
+  async componentDidMount() {
+    await this.props.fetch(19);
+    await this.fetchData();
+  }
   componentWillUnmount() {
     OneSignal.removeEventListener('received', this.onReceived);
     OneSignal.removeEventListener('opened', this.onOpened);
@@ -33,7 +42,6 @@ export default class WishlistScreen extends Component {
       data: [],
       filter: [],
       active: '',
-      loadData: false,
       isFetching: false,
     };
     // OneSignal.setLogLevel(OneSignal.LOG_LEVEL.DEBUG, OneSignal.LOG_LEVEL.DEBUG);
@@ -48,90 +56,65 @@ export default class WishlistScreen extends Component {
   }
 
   onRefresh() {
-    const {data} = this.state;
     this.setState({isFetching: true}, async () => {
-      await this.setState({
-        active: 'All',
-        filter: data,
-      });
+      await this.fetchData();
       this.setState({isFetching: false});
     });
   }
 
-  onChangeWishlist = e => {
-    const {data} = this.state;
-    let filerData = data.filter(d => {
-      return d.status === e;
-    });
-    if (e === 'All') {
-      return this.setState({
-        filter: data,
-        active: e,
-      });
-    }
-    this.setState({
-      filter: filerData,
-      active: e,
-    });
-  };
-
   fetchData = e => {
-    const data = [
-      {
-        id: '1',
-        photo: 'Pending',
-        price: '2000',
-        title: 'Apel',
-      },
-      {
-        id: '2',
-        photo: 'Pending',
-        price: '2000',
-        title: 'Cabe',
-      },
-      {
-        id: '3',
-        photo: 'Pending',
-        price: '2000',
-        title: 'Apel',
-      },
-    ];
+    const {wishlist} = this.props;
     this.setState({
-      data,
-      filter: data,
-      active: 'All',
+      data: wishlist.data,
     });
   };
-
-  componentDidMount() {
-    this.fetchData();
-  }
 
   render() {
-    const {filter, active} = this.state;
+    const {data} = this.state;
     return (
       <>
-        <View>
-          <FlatList
-            data={filter}
-            refreshControl={
-              <RefreshControl
-                onRefresh={() => this.onRefresh()}
-                refreshing={this.state.isFetching}
-              />
-            }
-            renderItem={({item}) => (
-              <CardWishlist
-                photo={item.photo}
-                price={item.price}
-                title={item.title}
-                key={item.id}
-              />
-            )}
-            keyExtractor={item => item.id}
-          />
-        </View>
+        {this.props.isLoading && <ActivityIndicator size="large" />}
+        {this.state.isFetching && <ActivityIndicator size="large" />}
+        {!this.props.isLoading && !this.state.isFetching && (
+          <View>
+            <FlatList
+              data={data}
+              refreshControl={
+                <RefreshControl
+                  onRefresh={() => this.onRefresh()}
+                  refreshing={this.state.isFetching}
+                />
+              }
+              renderItem={({item}) => (
+                <CardWishlist
+                  id={item.id}
+                  user_id={item.user_id}
+                  product_id={item.product_id}
+                  photo={item.photo}
+                  price={item.price}
+                  title={item.name}
+                />
+              )}
+              keyExtractor={item => item.id.toString()}
+            />
+          </View>
+        )}
       </>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  wishlist: state.wishlist.data.data,
+  isLoading: state.wishlist.isLoading,
+  isError: state.wishlist.isError,
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetch: user_id => dispatch(fetchWishlistAll(user_id)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(WishlistScreen);
