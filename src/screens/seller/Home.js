@@ -10,7 +10,6 @@ import {
 class Home extends Component {
   render() {
     const items = [
-      {id: '1', name: 'TURQUOISE', code: '#1abc9c', price: 'Rp.30.000'},
       {id: '2', name: 'EMERALD', code: '#2ecc71', price: 'Rp.30.000'},
       {id: '3', name: 'PETER RIVER', code: '#3498db', price: 'Rp.30.000'},
       {id: '4', name: 'AMETHYST', code: '#9b59b6', price: 'Rp.30.000'},
@@ -19,11 +18,11 @@ class Home extends Component {
     return (
       <>
         <View style={styles.view}>
-          <Button style={styles.button}>
-            <Text style={styles.textButton}>
-              <Icon name="add" size={90} />
-              Add product
-            </Text>
+          <Button
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate('Upload')}>
+            <Icon name="add" style={styles.icon} />
+            <Text style={styles.textButton}>Add product</Text>
           </Button>
         </View>
         <FlatGrid
@@ -32,6 +31,7 @@ class Home extends Component {
           style={styles.gridView}
           renderItem={({item, index}) => (
             <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('DetailProduct')}
               style={[styles.itemContainer, {backgroundColor: item.code}]}>
               <Text style={styles.itemName}>{item.name}</Text>
               <Text style={styles.itemCode}>{item.price}</Text>
@@ -50,6 +50,9 @@ const styles = StyleSheet.create({
   view: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  icon: {
+    color: '#000000',
   },
   button: {
     justifyContent: 'center',
