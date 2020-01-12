@@ -38,7 +38,7 @@ const DetailProduct = ({getProduct, product: {product}, navigation}) => {
     };
 
     getSingleProduct(product_id);
-  }, [product_id]);
+  }, [getProduct, product_id]);
 
   return (
     <>
@@ -175,4 +175,7 @@ const mapStateToProps = state => ({
   product: state.product,
 });
 
-export default connect(mapStateToProps, {getProduct})(DetailProduct);
+export default connect(
+  mapStateToProps,
+  {getProduct},
+)(DetailProduct);
