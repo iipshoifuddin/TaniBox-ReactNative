@@ -1,51 +1,61 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {StyleSheet, View, Image} from 'react-native';
 import {Container, Content, Text, Button, Icon} from 'native-base';
 import {font} from '../../helpers';
 import sColor from '../../public/styles/color';
 import color from '../../config';
+import {connect} from 'react-redux';
 
-const CheckOut = () => {
-  return (
-    <Container>
-      <Content style={[sColor.grayBgColor, s.py2]}>
-        <View style={s.section}>
-          <Text style={[sColor.regularGrayColor, font(18), s.mb]}>
-            Shipping Address
-          </Text>
-          <Text style={[font(19)]}>Jakarta - Tebet Utara 3B 10</Text>
-        </View>
-        <View style={s.section}>
-          <Text style={[sColor.regularGrayColor, font(18), s.mb]}>
-            Payment Method
-          </Text>
-          <View style={s.flexRow}>
-            <View style={s.paymentImg}>
-              <BrandImage uri={require('../../public/images/bca.png')} />
-              <BrandImage uri={require('../../public/images/bri.png')} />
-              <BrandImage uri={require('../../public/images/bni.png')} />
-            </View>
-            <Icon name="arrow-forward" />
-          </View>
-        </View>
-        <View style={s.section}>
-          <View style={s.flexRow}>
+const BrandImage = props => {
+  return <Image source={props.uri} resizeMode="contain" style={s.img} />;
+};
+
+export class CheckOut extends Component {
+  static navigationOptions = {
+    title: 'Check Out',
+  };
+
+  render() {
+    return (
+      <Container>
+        <Content style={[sColor.grayBgColor, s.py2]}>
+          <View style={s.section}>
             <Text style={[sColor.regularGrayColor, font(18), s.mb]}>
-              Shipment
+              Shipping Address
             </Text>
-            <Text style={[sColor.regularGrayColor, font(18), s.mb]}>
-              2 hari
-            </Text>
+            <Text style={[font(19)]}>Jakarta - Tebet Utara 3B 10</Text>
           </View>
-          <View style={s.flexRow}>
-            <Text style={[font(19)]}>SiCepat REG - Rp10.000</Text>
-            <View style={[s.flexRowReverse]}>
-              <Icon name="arrow-forward" style={s.ml_2} />
-              <BrandImage uri={require('../../public/images/jne.png')} />
+          <View style={s.section}>
+            <Text style={[sColor.regularGrayColor, font(18), s.mb]}>
+              Payment Method
+            </Text>
+            <View style={s.flexRow}>
+              <View style={s.paymentImg}>
+                <BrandImage uri={require('../../public/images/bca.png')} />
+                <BrandImage uri={require('../../public/images/bri.png')} />
+                <BrandImage uri={require('../../public/images/bni.png')} />
+              </View>
+              <Icon name="arrow-forward" />
             </View>
           </View>
-        </View>
-        {/* <View style={s.section}>
+          <View style={s.section}>
+            <View style={s.flexRow}>
+              <Text style={[sColor.regularGrayColor, font(18), s.mb]}>
+                Shipment
+              </Text>
+              <Text style={[sColor.regularGrayColor, font(18), s.mb]}>
+                2 hari
+              </Text>
+            </View>
+            <View style={s.flexRow}>
+              <Text style={[font(19)]}>SiCepat REG - Rp10.000</Text>
+              <View style={[s.flexRowReverse]}>
+                <Icon name="arrow-forward" style={s.ml_2} />
+                <BrandImage uri={require('../../public/images/jne.png')} />
+              </View>
+            </View>
+          </View>
+          {/* <View style={s.section}>
           <Text style={[sColor.regularGrayColor, font(18), s.mb]}>
             Price details
           </Text>
@@ -53,23 +63,31 @@ const CheckOut = () => {
             <Text style={[font(19)]}>Alfamart</Text>
           </View>
         </View> */}
-      </Content>
-      <View style={[sColor.lightBgColor, s.footer]}>
-        <View style={[s.flexRow, s.mb]}>
-          <Text>Total payment</Text>
-          <Text>Rp. 14000</Text>
+        </Content>
+        <View style={[sColor.lightBgColor, s.footer]}>
+          <View style={[s.flexRow, s.mb]}>
+            <Text>Total payment</Text>
+            <Text>Rp. 14000</Text>
+          </View>
+          <Button full style={sColor.secondaryBgColor}>
+            <Text>Pay Secure</Text>
+          </Button>
         </View>
-        <Button full style={sColor.secondaryBgColor}>
-          <Text>Pay Secure</Text>
-        </Button>
-      </View>
-    </Container>
-  );
-};
+      </Container>
+    );
+  }
+}
 
-CheckOut.navigationOptions = {
-  title: 'Check Out',
-};
+const mapStateToProps = state => ({
+  propsData: state.cart,
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CheckOut);
 
 const s = StyleSheet.create({
   paymentImg: {flex: 1, flexDirection: 'row'},
@@ -114,9 +132,3 @@ const s = StyleSheet.create({
   ml: {marginLeft: 5},
   ml_2: {marginLeft: 10},
 });
-
-const BrandImage = props => {
-  return <Image source={props.uri} resizeMode="contain" style={s.img} />;
-};
-
-export default CheckOut;
