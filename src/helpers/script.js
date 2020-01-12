@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {Toast} from 'native-base';
-// import ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-picker';
 const options = {
   title: 'Profile Picture',
   storageOptions: {
@@ -16,12 +16,14 @@ const toastr = (message, type) => {
   });
 };
 
-const sessionCheck = async _ => {
+const sessionCheck = async callback => {
+  let data = 0;
   try {
-    return await AsyncStorage.getAllKeys().length;
+    data = await AsyncStorage.getAllKeys().length;
   } catch (err) {
-    return 0;
+    callback(0);
   }
+  callback(data);
 };
 
 const clearSession = async callback => {
@@ -32,6 +34,19 @@ const clearSession = async callback => {
   }
 
   callback();
+};
+
+const removeDataStorage = async (item, callback) => {
+  try {
+    await AsyncStorage.removeItem(item);
+  } catch (e) {
+    if (typeof callback === 'function') {
+      callback(e);
+    }
+  }
+  if (typeof callback === 'function') {
+    callback(undefined);
+  }
 };
 
 const getDataStorage = async (item, callback) => {
@@ -98,25 +113,39 @@ function validateImage(fileName, fileSize) {
   }
 }
 
-// function launchImageLibrary(callback) {
-//   ImagePicker.launchImageLibrary(options, res => {
-//     if (!res.didCancel && !res.error && !res.customButton) {
-//       const {fileName, fileSize} = res;
-//       const isValid = validateImage(fileName, fileSize);
-//       if (isValid) {
-//         callback(res);
-//       }
-//     }
-//   });
-// }
+function launchImageLibrary(callback) {
+  ImagePicker.launchImageLibrary(options, res => {
+    if (!res.didCancel && !res.error && !res.customButton) {
+      const {fileName, fileSize} = res;
+      const isValid = validateImage(fileName, fileSize);
+      if (isValid) {
+        callback(res);
+      }
+    }
+  });
+}
+
+function showImagePicker(callback) {
+  ImagePicker.showImagePicker(options, res => {
+    if (!res.didCancel && !res.error && !res.customButton) {
+      const {fileName, fileSize} = res;
+      const isValid = validateImage(fileName, fileSize);
+      if (isValid) {
+        callback(res);
+      }
+    }
+  });
+}
 
 export {
   timeConverter,
   validExtension,
   validateImage,
-  //   launchImageLibrary,
+  launchImageLibrary,
+  showImagePicker,
   sessionCheck,
   clearSession,
+  removeDataStorage,
   getDataStorage,
   getMultipleDataStorage,
   toastr,
