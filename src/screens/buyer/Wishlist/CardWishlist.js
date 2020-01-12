@@ -1,9 +1,19 @@
 import React, {Component} from 'react';
-import {Text, View, TouchableOpacity, StyleSheet, Image} from 'react-native';
-import {Card, CardItem, Body, Right} from 'native-base';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  Alert,
+} from 'react-native';
+import {Card, CardItem, Right} from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {connect} from 'react-redux';
+import {deleteWishlist} from '../../../public/redux/actions/Wishlist';
+import AsyncStorage from '@react-native-community/async-storage';
 
-export default class CardWishlist extends Component {
+class CardWishlist extends Component {
   render() {
     return (
       <View>
@@ -16,10 +26,20 @@ export default class CardWishlist extends Component {
               }}
               style={styles.image}
             />
-            <Body>
-              <Text style={styles.title}>Apel</Text>
-              <Text style={styles.subTitle}>Rp. 20.000</Text>
-            </Body>
+            <View>
+              <Text style={styles.title}>
+                {this.props.title.length > 12
+                  ? `${this.props.title.substring(0, 12)}...`
+                  : this.props.title}
+              </Text>
+              <Text style={styles.subTitle}>
+                Rp.{' '}
+                {this.props.price
+                  .toString()
+                  .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}{' '}
+                / KG
+              </Text>
+            </View>
             <Right>
               <View style={styles.row}>
                 <TouchableOpacity>
@@ -30,7 +50,37 @@ export default class CardWishlist extends Component {
                     color={'#68CAA2'}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={async () => {
+                    const token = await AsyncStorage.getItem('token');
+                    const config = {
+                      headers: {
+                        'content-type': 'application/json',
+                        Authorization: 'Bearer ' + token,
+                      },
+                    };
+                    // console.warn(token);
+                    Alert.alert(
+                      'Delete Wishlist',
+                      'Are You Sure?',
+                      [
+                        {
+                          text: 'No',
+                          style: 'cancel',
+                        },
+                        {
+                          text: 'Yes',
+                          onPress: () =>
+                            this.props.delete(
+                              this.props.product_id,
+                              this.props.user_id,
+                              config,
+                            ),
+                        },
+                      ],
+                      {cancelable: false},
+                    );
+                  }}>
                   <Ionicons
                     style={styles.icon}
                     name="ios-trash"
@@ -58,7 +108,22 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ddd',
     // borderBottomWidth: 2,
   },
-  title: {fontWeight: 'bold', fontSize: 25, color: '#035943'},
+  title: {fontWeight: 'bold', fontSize: 23, color: '#035943'},
   subTitle: {fontWeight: '500', fontSize: 17},
   image: {width: 60, height: 60, marginRight: 10},
 });
+
+const mapStateToProps = state => ({
+  isLoading: state.wishlist.isLoading,
+  isError: state.wishlist.isError,
+});
+
+const mapDispatchToProps = dispatch => ({
+  delete: (product_id, user_id) =>
+    dispatch(deleteWishlist(product_id, user_id)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CardWishlist);
