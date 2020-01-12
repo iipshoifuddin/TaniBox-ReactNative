@@ -42,6 +42,7 @@ const DetailProductItem = ({item}) => {
     price = item.price;
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [wish, setWish] = useState(false);
 
   const toggleWish = async event => {
