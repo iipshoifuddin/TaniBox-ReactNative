@@ -78,7 +78,9 @@ const HomeScreen = ({ getProductsVegetable, getProductsFruit, product: { product
                         items={productsFruit}
                         renderItem={({item, index}) => (
                           <TouchableOpacity
-                            onPress={() => navigation.navigate('DetailProduct')}
+                            onPress={() => navigation.navigate('Detail', {
+                                product_id: item.product_id
+                            })}
                             style={{
                                 justifyContent: 'flex-end',
                                 position: 'relative',
@@ -130,7 +132,9 @@ const HomeScreen = ({ getProductsVegetable, getProductsFruit, product: { product
                         items={productsVegetable}
                         renderItem={({item, index}) => (
                           <TouchableOpacity
-                            onPress={() => navigation.navigate('DetailProduct')}
+                            onPress={() => navigation.navigate('Detail', {
+                                product_id: item.product_id
+                            })}
                             style={{
                                 justifyContent: 'flex-end',
                                 position: 'relative',
