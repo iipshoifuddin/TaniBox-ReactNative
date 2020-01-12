@@ -24,22 +24,18 @@ export class CheckOut extends Component {
       bank: 'bca',
       courier: 'jne',
       service: 'OKE',
+      shipmentPrice: 0,
     };
   }
 
-  _fetchingCost = async () => {
-    const url = `${API_ENDPOINT}shipment/cost`;
-    const data = {
-      origin_city: '501',
-      destination_city: this.props.propsProfile.city,
-      weight: 1700,
-      courier: this.state.courier,
-    };
-    this.props.fetchCost(url, data);
-  };
+  componentDidMount() {
+    this.setState({
+      shipmentPrice: parseInt(this.props.propsCost.costs[0].cost[0].value),
+    });
+  }
 
   render() {
-    const {propsProfile, propsCost} = this.props;
+    const {propsProfile, propsCost, propsData} = this.props;
     return (
       <Container>
         <Content style={[sColor.grayBgColor, s.py2]}>
@@ -88,17 +84,22 @@ export class CheckOut extends Component {
             <Picker
               selectedValue={this.state.service}
               onValueChange={(value, itemIndex) =>
-                this.setState({service: value})
+                this.setState({service: value, shipmentPrice: value})
               }>
-              {propsCost[0].costs.map((item, key) => {
+              {propsCost.costs.map((item, key) => {
                 return (
                   <Picker.Item
                     label={`${item.service} - Rp.${item.cost[0].value}`}
-                    value={item.cost.value}
+                    value={item.cost[0].value}
                   />
                 );
               })}
             </Picker>
+          </View>
+          <View style={s.section}>
+            <Text style={[sColor.regularGrayColor, font(18), s.mb]}>
+              Total Amount: {propsData.cart[0].totalAmount}
+            </Text>
           </View>
           {/* <View style={s.section}>
             <View style={s.flexRow}>
@@ -129,7 +130,10 @@ export class CheckOut extends Component {
         <View style={[sColor.lightBgColor, s.footer]}>
           <View style={[s.flexRow, s.mb]}>
             <Text>Total payment</Text>
-            <Text>Rp. 14000</Text>
+            <Text>
+              {'Rp.' +
+                (propsData.cart[0].totalAmount + this.state.shipmentPrice)}
+            </Text>
           </View>
           <Button full style={sColor.secondaryBgColor}>
             <Text>Pay Secure</Text>
@@ -142,7 +146,8 @@ export class CheckOut extends Component {
 
 const mapStateToProps = state => ({
   propsProfile: state.profile.dataProfile,
-  propsCost: state.cost.cost,
+  propsData: state.cart,
+  propsCost: state.cost.cost[0],
 });
 
 const mapDispatchToProps = dispatch => ({
