@@ -7,7 +7,7 @@ import {
   Image,
   Alert,
 } from 'react-native';
-import {Card, CardItem, Body, Right} from 'native-base';
+import {Card, CardItem, Right} from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {deleteWishlist} from '../../../public/redux/actions/Wishlist';
