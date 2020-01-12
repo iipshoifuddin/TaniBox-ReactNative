@@ -16,6 +16,7 @@ import ForgotPassword from './src/screens/auth/ForgotPassword';
 import ResetPassword from './src/screens/auth/ResetPassword';
 import Home from './src/screens/buyer/Home';
 import Profile from './src/screens/buyer/Profile';
+import EditProfileBuyer from './src/screens/buyer/EditProfile'
 import Wishlist from './src/screens/buyer/Wishlist/Wishlist';
 import Notification from './src/screens/buyer/Notification/Notifications';
 import Cart from './src/screens/buyer/Cart';
@@ -23,13 +24,17 @@ import CheckOut from './src/screens/buyer/CheckOut';
 import SingleNotification from './src/screens/buyer/Notification/SingleNotification';
 
 // Product Screens
+import EachProduct from './src/screens/product/EachProduct';
 import DetailProduct from './src/screens/product/DetailProduct';
+import DetailProductSeller from './src/screens/product/DetailProductSeller';
 import UploadProduct from './src/screens/product/UploadProduct';
 
 // Seller Screens
 import HomeSeller from './src/screens/seller/Home';
 import NotificationSeller from './src/screens/seller/Notification';
-import ProfileSeller from './src/screens/seller/Profile';
+import SellerAccount from './src/screens/seller/Account';
+import SellerProfile from './src/screens/seller/Profile';
+import SellerAddress from './src/screens/seller/Address';
 
 import {getDataStorage} from './src/helpers/script';
 
@@ -46,12 +51,25 @@ const HomeStack = createStackNavigator({
       headerShown: false,
     },
   },
+  EachProduct: {
+      screen: EachProduct,
+      navigationOptions: {
+          headerShown: false
+      }
+  }
 });
 
 const SellerStack = createStackNavigator({
   HomeSeller: {
     screen: HomeSeller,
     navigationOption: {
+      headerShown: false,
+    },
+  },
+  Upload: UploadProduct,
+  DetailProduct: {
+    screen: DetailProductSeller,
+    navigationOptions: {
       headerShown: false,
     },
   },
@@ -68,7 +86,15 @@ const NotificationStack = createStackNavigator({
   },
   SingleNotification,
 });
-const ProfileStack = createStackNavigator({Profile: Profile});
+const ProfileStack = createStackNavigator({  
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  EditProfileBuyer: EditProfileBuyer,
+});
 const AuthStack = createStackNavigator({
   SignIn,
   SignUp,
@@ -79,7 +105,9 @@ const NotificationStackSeller = createStackNavigator({
   Notification: NotificationSeller,
 });
 const ProfileStackSeller = createStackNavigator({
-  Profile: ProfileSeller,
+  Account: SellerAccount,
+  Profile: SellerProfile,
+  Address: SellerAddress,
   Upload: UploadProduct,
 });
 

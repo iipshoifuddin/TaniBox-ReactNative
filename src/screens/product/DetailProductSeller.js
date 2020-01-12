@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   StyleSheet,
   ImageBackground,
-  Image,
   Text,
   ScrollView,
 } from 'react-native';
@@ -14,39 +13,54 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import axios from 'axios'
 import Carousel from 'react-native-anchor-carousel';
-import { connect } from 'react-redux'
-import { getProduct } from '../../public/redux/actions/product'
 import loadingBlurImage from '../../public/images/loading-blur.jpeg';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import DetailProductItem from '../../components/DetailProductItem';
 
-const DetailProduct = ({ getProduct, product: { product }, navigation }) => {
+const data = [
+  {
+    photo:
+      'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/2/11/9627105/9627105_08c857a8-c683-4bd5-97b2-f41f37c6b93e_320_320.png',
+  },
+];
 
-  const product_id = navigation.state.params.product_id
+export default class DetailProduct extends Component {
+  constructor() {
+    super();
+    this.state = {
+      wish: false,
+    };
+  }
 
-  useEffect(() => {
-
-    const getSingleProduct = async (product_id) => {
-        try {
-            const response = await axios.get(`http://34.202.135.29:4000/api/v1/products/show-product/${product_id}`)
-            getProduct(response)
-        } catch(error) {
-            console.error(error)
-        }
-    }
-
-    getSingleProduct(product_id)
-
-}, [product_id])
-
+  wish = e => {
+    const {wish} = this.state;
+    this.setState({
+      wish: !wish,
+    });
+  };
+  renderItem = ({item, index}) => {
+    const {backgroundColor, photo} = item;
+    return (
+      <View
+        style={[styles.item, {backgroundColor}]}
+        onPress={() => {
+          this._carousel.scrollToIndex(index);
+        }}>
+        <ImageBackground
+          source={{uri: photo}}
+          style={styles.imageBackground}
+          loadingIndicatorSource={loadingBlurImage}
+        />
+      </View>
+    );
+  };
+  render() {
     return (
       <>
         <Header style={styles.header}>
           <Left>
             <Ionicons
-              onPress={() => navigation.navigate('Home')}
+              onPress={() => this.props.navigation.navigate('HomeSeller')}
               size={40}
               name={'ios-arrow-round-back'}
             />
@@ -54,10 +68,52 @@ const DetailProduct = ({ getProduct, product: { product }, navigation }) => {
           <Body />
           <Right />
         </Header>
-        <DetailProductItem item={product} />
-
+        <ScrollView>
+          <View style={styles.container}>
+            <View style={styles.carouselContainer}>
+              <Carousel
+                style={styles.carousel}
+                data={data}
+                renderItem={this.renderItem}
+                itemWidth={250}
+                separatorWidth={0}
+                ref={c => {
+                  this._carousel = c;
+                }}
+              />
+            </View>
+          </View>
+          <View style={styles.mt}>
+            <View style={styles.view}>
+              <View>
+                <H1 style={[styles.h1, styles.primaryColor]}>Cabai Merah</H1>
+                <Text style={styles.price}>Rp.30.000 / Kg</Text>
+              </View>
+            </View>
+            <H3 style={[styles.h3, styles.primaryColor]}>Description</H3>
+            <Text style={styles.textDescription}>
+              Cabai Merah keriting selain sering dijadikan penambah rasa pedas
+              pada masakan bisa juga sebagai pewarna merah pada masakan loh,
+              cabai keriting berukuran kecil namun berbentuk memanjang dan
+              memiliki permukaan yang kurang merata.
+            </Text>
+            <View style={[styles.section, styles.center]}>
+              <View>
+                <Button bordered style={styles.buttonCart}>
+                  <Text style={styles.textButtonCart}>Edit Product</Text>
+                </Button>
+              </View>
+              <View>
+                <Button style={styles.buttonBuyNow}>
+                  <Text style={styles.textButtonBuyNow}>Delete Product</Text>
+                </Button>
+              </View>
+            </View>
+          </View>
+        </ScrollView>
       </>
     );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -167,12 +223,3 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 });
-
-const mapStateToProps = state => ({
-    product: state.product
-})
-
-export default connect(
-    mapStateToProps,
-    { getProduct }
-)(DetailProduct)

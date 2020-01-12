@@ -8,6 +8,7 @@ const color = {
   paleGray: '#d7d6d5',
   light: '#fff',
   placeholder: '#eee',
+  danger: '#F32013',
 };
 
 export default color;
