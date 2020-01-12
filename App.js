@@ -23,9 +23,7 @@ import CheckOut from './src/screens/buyer/CheckOut';
 import SingleNotification from './src/screens/buyer/Notification/SingleNotification';
 
 // Product Screens
-import EachProduct from './src/screens/product/EachProduct';
 import DetailProduct from './src/screens/product/DetailProduct';
-import DetailProductSeller from './src/screens/product/DetailProductSeller';
 import UploadProduct from './src/screens/product/UploadProduct';
 
 // Seller Screens
@@ -48,25 +46,12 @@ const HomeStack = createStackNavigator({
       headerShown: false,
     },
   },
-  EachProduct: {
-      screen: EachProduct,
-      navigationOptions: {
-          headerShown: false
-      }
-  }
 });
 
 const SellerStack = createStackNavigator({
   HomeSeller: {
     screen: HomeSeller,
     navigationOption: {
-      headerShown: false,
-    },
-  },
-  Upload: UploadProduct,
-  DetailProduct: {
-    screen: DetailProductSeller,
-    navigationOptions: {
       headerShown: false,
     },
   },
@@ -95,6 +80,7 @@ const NotificationStackSeller = createStackNavigator({
 });
 const ProfileStackSeller = createStackNavigator({
   Profile: ProfileSeller,
+  Upload: UploadProduct,
 });
 
 const sellerBottom = {
