@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Image} from 'react-native';
-import {Container, Content, Text, Button, Icon} from 'native-base';
+import {Container, Content, Text, Button, Icon, Picker} from 'native-base';
 import {font} from '../../helpers';
 import sColor from '../../public/styles/color';
 import color from '../../config';
+import {API_ENDPOINT} from 'react-native-dotenv';
+
+import {fetchCost} from '../../public/redux/actions/Shipment';
 import {connect} from 'react-redux';
 
 const BrandImage = props => {
@@ -15,7 +18,28 @@ export class CheckOut extends Component {
     title: 'Check Out',
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      bank: 'bca',
+      courier: 'jne',
+      service: 'OKE',
+    };
+  }
+
+  _fetchingCost = async () => {
+    const url = `${API_ENDPOINT}shipment/cost`;
+    const data = {
+      origin_city: '501',
+      destination_city: this.props.propsProfile.city,
+      weight: 1700,
+      courier: this.state.courier,
+    };
+    this.props.fetchCost(url, data);
+  };
+
   render() {
+    const {propsProfile, propsCost} = this.props;
     return (
       <Container>
         <Content style={[sColor.grayBgColor, s.py2]}>
@@ -23,9 +47,14 @@ export class CheckOut extends Component {
             <Text style={[sColor.regularGrayColor, font(18), s.mb]}>
               Shipping Address
             </Text>
-            <Text style={[font(19)]}>Jakarta - Tebet Utara 3B 10</Text>
+            <Text style={[font(19)]}>
+              Province : {propsProfile.province_name}
+            </Text>
+            <Text style={[font(19)]}>city : {propsProfile.city_name}</Text>
+            <Text style={[font(19)]}>kecamatan : {propsProfile.kecamatan}</Text>
+            <Text style={[font(19)]}>Address : {propsProfile.address}</Text>
           </View>
-          <View style={s.section}>
+          {/* <View style={s.section}>
             <Text style={[sColor.regularGrayColor, font(18), s.mb]}>
               Payment Method
             </Text>
@@ -37,8 +66,41 @@ export class CheckOut extends Component {
               </View>
               <Icon name="arrow-forward" />
             </View>
+          </View> */}
+          <View style={s.section}>
+            <Text style={[sColor.regularGrayColor, font(18), s.mb]}>
+              Payment Method
+            </Text>
+            <Picker
+              selectedValue={this.state.bank}
+              onValueChange={(value, itemIndex) =>
+                this.setState({bank: value})
+              }>
+              <Picker.Item label="BCA" value="bca" />
+              <Picker.Item label="BNI" value="bni" />
+              <Picker.Item label="BRI" value="bri" />
+            </Picker>
           </View>
           <View style={s.section}>
+            <Text style={[sColor.regularGrayColor, font(18), s.mb]}>
+              Shipment
+            </Text>
+            <Picker
+              selectedValue={this.state.service}
+              onValueChange={(value, itemIndex) =>
+                this.setState({service: value})
+              }>
+              {propsCost[0].costs.map((item, key) => {
+                return (
+                  <Picker.Item
+                    label={`${item.service} - Rp.${item.cost[0].value}`}
+                    value={item.cost.value}
+                  />
+                );
+              })}
+            </Picker>
+          </View>
+          {/* <View style={s.section}>
             <View style={s.flexRow}>
               <Text style={[sColor.regularGrayColor, font(18), s.mb]}>
                 Shipment
@@ -54,7 +116,7 @@ export class CheckOut extends Component {
                 <BrandImage uri={require('../../public/images/jne.png')} />
               </View>
             </View>
-          </View>
+          </View> */}
           {/* <View style={s.section}>
           <Text style={[sColor.regularGrayColor, font(18), s.mb]}>
             Price details
@@ -79,10 +141,13 @@ export class CheckOut extends Component {
 }
 
 const mapStateToProps = state => ({
-  propsData: state.cart,
+  propsProfile: state.profile.dataProfile,
+  propsCost: state.cost.cost,
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  fetchCost: (url, data) => dispatch(fetchCost(url, data)),
+});
 
 export default connect(
   mapStateToProps,

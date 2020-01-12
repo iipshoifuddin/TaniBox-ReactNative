@@ -17,10 +17,22 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import {connect} from 'react-redux';
 import {fetchCart} from '../../public/redux/actions/Cart';
+import {fetchCost} from '../../public/redux/actions/Shipment';
 
 export class Cart extends Component {
   static navigationOptions = {
     title: 'Shopping Cart',
+  };
+
+  _fetchingCost = async () => {
+    const url = `${API_ENDPOINT}shipment/cost`;
+    const data = {
+      origin_city: '501',
+      destination_city: '114',
+      weight: '1700',
+      courier: 'jne',
+    };
+    this.props.fetchCost(url, data);
   };
 
   _fetchingData = async () => {
@@ -31,6 +43,7 @@ export class Cart extends Component {
 
   componentDidMount() {
     this._fetchingData();
+    this._fetchingCost();
   }
 
   render() {
@@ -90,9 +103,11 @@ export class Cart extends Component {
 
 const mapStateToProps = state => ({
   propsData: state.cart,
+  propsProfile: state.profile.dataProfile,
 });
 
 const mapDispatchToProps = dispatch => ({
+  fetchCost: (url, data) => dispatch(fetchCost(url, data)),
   fetchCart: url => dispatch(fetchCart(url)),
 });
 
