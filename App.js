@@ -48,11 +48,11 @@ const HomeStack = createStackNavigator({
     },
   },
   EachProduct: {
-      screen: EachProduct,
-      navigationOptions: {
-          headerShown: false
-      }
-  }
+    screen: EachProduct,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
 });
 
 const SellerStack = createStackNavigator({

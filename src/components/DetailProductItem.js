@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react';
 
 import {
   widthPercentageToDP as wp,
@@ -15,82 +15,81 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-
 } from 'react-native';
 
-import { Button } from 'native-base';
+import {Button} from 'native-base';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const DetailProductItem = ({ item }) => {
+const DetailProductItem = ({item}) => {
+  let name, photo, description, price;
 
-    let name, photo, description, price
+  console.log(item);
 
+  if (typeof item === 'undefined' || item === null) {
+    return false;
+  } else {
+    name = item.name;
+    photo = item.photo;
+    description = item.description;
+    price = item.price;
+  }
 
-    console.log(item)
+  const [wish, setWish] = useState(false);
 
-    if(typeof item === "undefined" || item === null) {
-        return false
-    } else {
-        name = item.name
-        photo = item.photo
-        description = item.description
-        price = item.price
-    }
+  const toggleWish = event => {
+    const {wish} = wish;
+    setWish({
+      wish: !wish,
+    });
+  };
 
-    const [wish, setWish] = useState(false)
-
-    const toggleWish = (event) => {
-      const { wish } = wish
-      setWish({
-          wish: !wish
-      })
-    }
-
-    return (
-        <>
-            <ScrollView>
-              <View style={styles.container}>
-                <View style={styles.carouselContainer}>
-                  <Image style={{ width: 400, height: 400 }} source={{ uri: `http://34.202.135.29:4000/images/products/${photo}` }} />
-                </View>
-              </View>
-              <View style={styles.mt}>
-                <View style={styles.view}>
-                  <View>
-                    <Text style={[styles.h1, styles.primaryColor]}> { name } </Text>
-                    <Text style={styles.price}>Rp. { price } / Kg</Text>
-                  </View>
-                  <TouchableOpacity onPress={e => toggleWish(e)}>
-                    <Ionicons
-                      size={40}
-                      color={color.primary}
-                      name={wish ? 'ios-heart' : 'ios-heart-empty'}
-                    />
-                  </TouchableOpacity>
-                </View>
-                <Text style={[styles.h3, styles.primaryColor]}>Description</Text>
-                <Text style={styles.textDescription}>
-                    { description }
-                </Text>
-                <View style={[styles.section, styles.center]}>
-                  <View>
-                    <Button bordered style={styles.buttonCart}>
-                      <Text style={styles.textButtonCart}>Add To Cart</Text>
-                    </Button>
-                  </View>
-                  <View>
-                    <Button style={styles.buttonBuyNow}>
-                      <Text style={styles.textButtonBuyNow}>Buy Now</Text>
-                    </Button>
-                  </View>
-                </View>
-              </View>
-            </ScrollView>
-        </>
-    )
-}
-
+  return (
+    <>
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.carouselContainer}>
+            <Image
+              style={{width: 400, height: 400}}
+              source={{
+                uri: `http://34.202.135.29:4000/images/products/${photo}`,
+              }}
+            />
+          </View>
+        </View>
+        <View style={styles.mt}>
+          <View style={styles.view}>
+            <View>
+              <Text style={[styles.h1, styles.primaryColor]}> {name} </Text>
+              <Text style={styles.price}>Rp. {price} / Kg</Text>
+            </View>
+            <TouchableOpacity onPress={e => toggleWish(e)}>
+              <Ionicons
+                size={40}
+                color={color.primary}
+                name={wish ? 'ios-heart' : 'ios-heart-empty'}
+              />
+            </TouchableOpacity>
+          </View>
+          <Text style={[styles.h3, styles.primaryColor]}>Description</Text>
+          <Text style={styles.textDescription}>{description}</Text>
+          <View style={[styles.section, styles.center]}>
+            <View>
+              <Button bordered style={styles.buttonCart}>
+                <Text style={styles.textButtonCart}>Add To Cart</Text>
+              </Button>
+            </View>
+            <View>
+              <Button style={styles.buttonBuyNow}>
+                <Text style={styles.textButtonBuyNow}>Buy Now</Text>
+              </Button>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
   header: {
@@ -200,5 +199,4 @@ const styles = StyleSheet.create({
   },
 });
 
-
-export default DetailProductItem
+export default DetailProductItem;
