@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View, ImageBackground, Image} from 'react-native';
 import {
   Container,
@@ -14,28 +14,23 @@ import {
 } from 'native-base';
 import sColor from '../../public/styles/color';
 import sGlobal from '../../public/styles/';
-import color from '../../config';
+import color, {headers} from '../../config';
 import axios from 'axios';
 import FormData from 'form-data';
 import {BASE_URL, API_ENDPOINT} from 'react-native-dotenv';
 import {toastr, showImagePicker} from '../../helpers/script';
+import {ButtonPrimary} from '../../components/Button';
 
 const Profile = ({navigation}) => {
   let [data, setData] = useState(navigation.state.params);
   let [config, setConfig] = useState({error: false, loading: false});
-  const headers = contentType => ({
-    headers: {
-      'Content-Type': contentType,
-      Authorization: 'Bearer ' + data.token,
-    },
-  });
   const handleSubmit = () => {
     setConfig({loading: true, error: false});
     axios
       .patch(
         `${API_ENDPOINT}profile`,
         {...data, name_of_seller: data.name},
-        headers('application/json'),
+        headers('application/json', data.token),
       )
       .then(() => {
         setConfig({loading: false, error: false});
@@ -57,7 +52,7 @@ const Profile = ({navigation}) => {
         .patch(
           `${API_ENDPOINT}profile/upload-${photo}`,
           form,
-          headers('multipart/form-data'),
+          headers('multipart/form-data', data.token),
         )
         .then(() => {
           setConfig({loading: false, error: false});
@@ -141,13 +136,7 @@ const Profile = ({navigation}) => {
               </Item>
             </ListItem>
           </List>
-          <View style={s.button}>
-            <Button
-              style={[sGlobal.center, sColor.secondaryBgColor]}
-              onPress={handleSubmit}>
-              <Text>Save</Text>
-            </Button>
-          </View>
+          <ButtonPrimary text="Save" handleSubmit={handleSubmit} />
         </View>
       </Content>
     </Container>
@@ -225,11 +214,6 @@ const s = StyleSheet.create({
   fzInput: {fontSize: 17},
   descriptionText: {
     alignSelf: 'flex-start',
-  },
-  button: {
-    paddingHorizontal: 32,
-    marginTop: 20,
-    marginBottom: 15,
   },
   invisible: {opacity: 0},
   flex: {flex: 1, justifyContent: 'center'},

@@ -34,6 +34,7 @@ const s = StyleSheet.create({
     alignItems: 'center',
   },
   textCenter: {textAlign: 'center'},
+  wFull: {width: '100%'},
 });
 
 export default s;

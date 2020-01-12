@@ -72,7 +72,7 @@ export default function Profile({
               <ImageBackground
                 source={require('../../public/images/seller-no-photo.png')}
                 imageStyle={s.imgCircle}
-                style={s.img}>
+                style={[s.img, s.border, s.imgCircle]}>
                 <ImageBackground
                   source={{
                     uri: `${BASE_URL}images/profile/${data.photo_profile}`,
@@ -141,6 +141,10 @@ const s = StyleSheet.create({
     width: '100%',
     height: '100%',
     position: 'absolute',
+  },
+  border: {
+    borderColor: color.light,
+    borderWidth: 2.5,
   },
   listContainer: {
     paddingVertical: 15,
