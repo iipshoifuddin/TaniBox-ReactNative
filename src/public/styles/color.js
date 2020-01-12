@@ -3,6 +3,7 @@ import color from '../../config';
 
 const s = StyleSheet.create({
   darkestColor: {color: color.primary},
+  dangerColor: {color: color.danger},
   primaryColor: {color: color.secondary},
   secondaryColor: {color: color.tertiary},
   grayColor: {color: color.gray},
