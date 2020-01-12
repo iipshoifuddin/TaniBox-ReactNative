@@ -28,8 +28,9 @@ const SignInScreen = props => {
   });
   const storeData = async data => {
     // eslint-disable-next-line no-shadow
-    const {token, email, role} = data;
+    const {id, token, email, role} = data;
     try {
+      await AsyncStorage.setItem('user_id', id.toString());
       await AsyncStorage.setItem('token', token);
       await AsyncStorage.setItem('email', email);
       await AsyncStorage.setItem('role', role);
