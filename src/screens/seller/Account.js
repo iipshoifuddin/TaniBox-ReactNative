@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text as TextMedium, View, Image} from 'react-native';
 import {
   Container,
@@ -12,16 +12,32 @@ import {
   Right,
   Icon,
 } from 'native-base';
-import {removeDataStorage} from '../../helpers/script';
+import {removeDataStorage, getDataStorage} from '../../helpers/script';
 import sGlobal from '../../public/styles';
 import sColor from '../../public/styles/color';
 import color from '../../config';
+import axios from 'axios';
+import {API_ENDPOINT} from 'react-native-dotenv';
 
-export default function Profile({navigation}) {
+export default function Profile({navigation: {navigate}}) {
+  let [data, setData] = useState({});
+  useEffect(() => {
+    getDataStorage('id', id => {
+      axios
+        .get(`${API_ENDPOINT}profile/${id}`)
+        .then(res => {
+          setData(res.data);
+        })
+        .catch(err => {
+          //Error di backend ngasih 500 not found
+          console.log(err);
+        });
+    });
+  }, []);
   const signOut = () => {
     removeDataStorage('token', err => {
       if (!err) {
-        navigation.navigate('Auth');
+        navigate('Auth');
       }
     });
   };
@@ -35,18 +51,21 @@ export default function Profile({navigation}) {
               style={s.img}
             />
           </View>
-          <H2 style={[sGlobal.textCenter, sColor.lightColor]}>Yayuk Store</H2>
+          <H2 style={[sGlobal.textCenter, sColor.lightColor]}>Toko Segar</H2>
           <TextMedium style={[sGlobal.textCenter, sColor.lightColor]}>
-            yayuk@gmail.com
+            toko@segar.com
           </TextMedium>
         </View>
         <List style={s.listContainer}>
           <ListItem itemDivider style={sColor.lightBgColor}>
             <Text>Settings</Text>
           </ListItem>
-          <ListArrow icon="contact">Profile</ListArrow>
+          <ListArrow
+            icon="contact"
+            handlePress={() => navigate('Profile', data)}>
+            Profile
+          </ListArrow>
           <ListArrow icon="pin">Address</ListArrow>
-          <ListArrow icon="ios-call">Phone</ListArrow>
           <ListArrow icon="key">Password</ListArrow>
           <ListArrow
             icon="log-out"
