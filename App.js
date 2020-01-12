@@ -25,6 +25,7 @@ import SingleNotification from './src/screens/buyer/Notification/SingleNotificat
 // Product Screens
 import EachProduct from './src/screens/product/EachProduct';
 import DetailProduct from './src/screens/product/DetailProduct';
+import DetailProductSeller from './src/screens/product/DetailProductSeller';
 import UploadProduct from './src/screens/product/UploadProduct';
 
 // Seller Screens
@@ -62,6 +63,13 @@ const SellerStack = createStackNavigator({
       headerShown: false,
     },
   },
+  Upload: UploadProduct,
+  DetailProduct: {
+    screen: DetailProductSeller,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
 });
 
 const WishlistStack = createStackNavigator({Wishlist: Wishlist});
@@ -87,7 +95,6 @@ const NotificationStackSeller = createStackNavigator({
 });
 const ProfileStackSeller = createStackNavigator({
   Profile: ProfileSeller,
-  Upload: UploadProduct,
 });
 
 const sellerBottom = {

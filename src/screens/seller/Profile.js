@@ -12,9 +12,6 @@ export default class Profile extends Component {
   render() {
     return (
       <View>
-        <Button onPress={() => this.props.navigation.navigate('Upload')}>
-          <Text>upload product</Text>
-        </Button>
         <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
       </View>
     );
