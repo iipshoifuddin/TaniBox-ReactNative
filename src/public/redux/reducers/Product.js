@@ -10,6 +10,11 @@ const initialState = {
     productsFruit: [],
     products: [],
     product: {},
+    search: '',
+    sortBy: 'date_updated',
+    sort: 'DESC',
+    limit: 5,
+    overlay: false,
     loading: true
 }
 

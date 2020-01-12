@@ -98,8 +98,8 @@ const HomeScreen = ({ getProductsVegetable, getProductsFruit, product: { product
                                     padding: 10,
                                     backgroundColor: 'rgba(0,0,0, 0.5)' }}>
                                 </View>
-                                <Text style={styles.itemName}>{item.name}</Text>
-                                <Text style={styles.itemCode}>{item.price}</Text>
+                                <Text style={styles.itemName}>{ item.name }</Text>
+                                <Text style={styles.itemCode}>Rp. { item.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') }{' '} </Text>
                           </TouchableOpacity>
                         )}
                       />
@@ -152,8 +152,8 @@ const HomeScreen = ({ getProductsVegetable, getProductsFruit, product: { product
                                     padding: 10,
                                     backgroundColor: 'rgba(0,0,0, 0.5)' }}>
                                 </View>
-                                <Text style={styles.itemName}>{item.name}</Text>
-                                <Text style={styles.itemCode}>{item.price}</Text>
+                                <Text style={styles.itemName}>{ item.name }</Text>
+                                <Text style={styles.itemCode}>Rp. { item.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') }{' '} </Text>
                           </TouchableOpacity>
                         )}
                       />
