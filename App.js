@@ -55,6 +55,7 @@ const SellerStack = createStackNavigator({
       headerShown: false,
     },
   },
+  Upload: UploadProduct,
 });
 
 const WishlistStack = createStackNavigator({Wishlist: Wishlist});
@@ -80,7 +81,6 @@ const NotificationStackSeller = createStackNavigator({
 });
 const ProfileStackSeller = createStackNavigator({
   Profile: ProfileSeller,
-  Upload: UploadProduct,
 });
 
 const sellerBottom = {
