@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Button, View} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import OneSignal from 'react-native-onesignal';
+import {ONESIGNAL_API_KEY} from 'react-native-dotenv';
 
 class ProfileScreen extends Component {
   static navigationOptions = {
@@ -21,6 +23,7 @@ class ProfileScreen extends Component {
   };
 
   _signOutAsync = async () => {
+    // await OneSignal.setSubscription(false);
     await AsyncStorage.removeItem('token');
     this.props.navigation.navigate('Auth');
   };

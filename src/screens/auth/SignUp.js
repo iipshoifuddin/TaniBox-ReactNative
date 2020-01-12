@@ -13,6 +13,8 @@ import sColor from '../../public/styles/color';
 import {toastr} from '../../helpers/script';
 import axios from 'axios';
 import {API_ENDPOINT} from 'react-native-dotenv';
+import OneSignal from 'react-native-onesignal';
+import {ONESIGNAL_API_KEY} from 'react-native-dotenv';
 
 const SignUpScreen = props => {
   const {
@@ -45,6 +47,12 @@ const SignUpScreen = props => {
         role,
       })
       .then(() => {
+        // OneSignal.init(ONESIGNAL_API_KEY);
+        // OneSignal.addEventListener('received', this.onReceived);
+        // OneSignal.addEventListener('opened', this.onOpened);
+        // OneSignal.addEventListener('ids', this.onIds);
+        // OneSignal.enableSound(true);
+        // OneSignal.inFocusDisplaying(2);
         setConfig({loading: false, error: false});
         toastr(
           'Your account successfully registered. You can login now!',
@@ -57,6 +65,7 @@ const SignUpScreen = props => {
         toastr('Username or email already registered', 'danger');
       });
   };
+
   return (
     <Container style={[s.centerRotate]}>
       <ScrollView>
@@ -71,7 +80,7 @@ const SignUpScreen = props => {
                 <TextInput
                   style={[s.input, s.lightBorder, sColor.lightColor]}
                   placeholderTextColor={color.lightGray}
-                  placeholder="kepler"
+                  placeholder="Username"
                   value={username}
                   onChangeText={text => setUsername(text)}
                 />
@@ -82,7 +91,7 @@ const SignUpScreen = props => {
                   keyboardType="email-address"
                   style={[s.input, s.lightBorder, sColor.lightColor]}
                   placeholderTextColor={color.lightGray}
-                  placeholder="kepler@mail.com"
+                  placeholder="example@mail.com"
                   value={email}
                   onChangeText={text => setEmail(text)}
                 />

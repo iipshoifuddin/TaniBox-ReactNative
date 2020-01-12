@@ -16,13 +16,14 @@ import ForgotPassword from './src/screens/auth/ForgotPassword';
 import ResetPassword from './src/screens/auth/ResetPassword';
 import Home from './src/screens/buyer/Home';
 import Profile from './src/screens/buyer/Profile';
-import Wishlist from './src/screens/buyer/Wishlist';
+import Wishlist from './src/screens/buyer/Wishlist/Wishlist';
 import Notification from './src/screens/buyer/Notification/Notifications';
 import Cart from './src/screens/buyer/Cart';
 import CheckOut from './src/screens/buyer/CheckOut';
 import SingleNotification from './src/screens/buyer/Notification/SingleNotification';
 
 // Product Screens
+import EachProduct from './src/screens/product/EachProduct';
 import DetailProduct from './src/screens/product/DetailProduct';
 import UploadProduct from './src/screens/product/UploadProduct';
 
@@ -46,6 +47,12 @@ const HomeStack = createStackNavigator({
       headerShown: false,
     },
   },
+  EachProduct: {
+      screen: EachProduct,
+      navigationOptions: {
+          headerShown: false
+      }
+  }
 });
 
 const SellerStack = createStackNavigator({

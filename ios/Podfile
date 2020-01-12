@@ -38,6 +38,8 @@ target 'TaniBox' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
+
   target 'TaniBoxTests' do
     inherit! :search_paths
     # Pods for testing

@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
   ImageBackground,
+  Image,
   Text,
   ScrollView,
 } from 'react-native';
@@ -13,66 +14,39 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import axios from 'axios'
 import Carousel from 'react-native-anchor-carousel';
+import { connect } from 'react-redux'
+import { getProduct } from '../../public/redux/actions/product'
 import loadingBlurImage from '../../public/images/loading-blur.jpeg';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import DetailProductItem from '../../components/DetailProductItem';
 
-const data = [
-  {
-    photo:
-      'https://ecs7.tokopedia.net/img/cache/700/product-1/2019/2/11/9627105/9627105_08c857a8-c683-4bd5-97b2-f41f37c6b93e_320_320.png',
-  },
-  // {
-  //   photo:
-  //     'https://asset-a.grid.id/crop/0x0:0x0/700x465/photo/2019/03/09/2750049933.jpg',
-  // },
-  // {
-  //   photo:
-  //     'https://awsimages.detik.net.id/community/media/visual/2017/01/14/ad719fe7-4942-433f-840a-13a81e02d017_169.jpeg?w=700&q=80',
-  // },
-  // {
-  //   photo:
-  //     'https://www.seroyamart.com/assets/uploads/600X600/559691363-1522206244.jpg',
-  // },
-];
+const DetailProduct = ({ getProduct, product: { product }, navigation }) => {
 
-export default class DetailProduct extends Component {
-  constructor() {
-    super();
-    this.state = {
-      wish: false,
-    };
-  }
+  const product_id = navigation.state.params.product_id
 
-  wish = e => {
-    const {wish} = this.state;
-    this.setState({
-      wish: !wish,
-    });
-  };
-  renderItem = ({item, index}) => {
-    const {backgroundColor, photo} = item;
-    return (
-      <View
-        style={[styles.item, {backgroundColor}]}
-        onPress={() => {
-          this._carousel.scrollToIndex(index);
-        }}>
-        <ImageBackground
-          source={{uri: photo}}
-          style={styles.imageBackground}
-          loadingIndicatorSource={loadingBlurImage}
-        />
-      </View>
-    );
-  };
-  render() {
+  useEffect(() => {
+
+    const getSingleProduct = async (product_id) => {
+        try {
+            const response = await axios.get(`http://34.202.135.29:4000/api/v1/products/show-product/${product_id}`)
+            getProduct(response)
+        } catch(error) {
+            console.error(error)
+        }
+    }
+
+    getSingleProduct(product_id)
+
+}, [product_id])
+
     return (
       <>
         <Header style={styles.header}>
           <Left>
             <Ionicons
-              onPress={() => this.props.navigation.navigate('Home')}
+              onPress={() => navigation.navigate('Home')}
               size={40}
               name={'ios-arrow-round-back'}
             />
@@ -80,59 +54,10 @@ export default class DetailProduct extends Component {
           <Body />
           <Right />
         </Header>
-        <ScrollView>
-          <View style={styles.container}>
-            <View style={styles.carouselContainer}>
-              <Carousel
-                style={styles.carousel}
-                data={data}
-                renderItem={this.renderItem}
-                itemWidth={250}
-                separatorWidth={0}
-                ref={c => {
-                  this._carousel = c;
-                }}
-              />
-            </View>
-          </View>
-          <View style={styles.mt}>
-            <View style={styles.view}>
-              <View>
-                <H1 style={[styles.h1, styles.primaryColor]}>Cabai Merah</H1>
-                <Text style={styles.price}>Rp.30.000 / Kg</Text>
-              </View>
-              <TouchableOpacity onPress={this.wish}>
-                <Ionicons
-                  size={40}
-                  color={color.primary}
-                  name={this.state.wish ? 'ios-heart' : 'ios-heart-empty'}
-                />
-              </TouchableOpacity>
-            </View>
-            <H3 style={[styles.h3, styles.primaryColor]}>Description</H3>
-            <Text style={styles.textDescription}>
-              Cabai Merah keriting selain sering dijadikan penambah rasa pedas
-              pada masakan bisa juga sebagai pewarna merah pada masakan loh,
-              cabai keriting berukuran kecil namun berbentuk memanjang dan
-              memiliki permukaan yang kurang merata.
-            </Text>
-            <View style={[styles.section, styles.center]}>
-              <View>
-                <Button bordered style={styles.buttonCart}>
-                  <Text style={styles.textButtonCart}>Add To Cart</Text>
-                </Button>
-              </View>
-              <View>
-                <Button style={styles.buttonBuyNow}>
-                  <Text style={styles.textButtonBuyNow}>Buy Now</Text>
-                </Button>
-              </View>
-            </View>
-          </View>
-        </ScrollView>
+        <DetailProductItem item={product} />
+
       </>
     );
-  }
 }
 
 const styles = StyleSheet.create({
@@ -242,3 +167,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 });
+
+const mapStateToProps = state => ({
+    product: state.product
+})
+
+export default connect(
+    mapStateToProps,
+    { getProduct }
+)(DetailProduct)
