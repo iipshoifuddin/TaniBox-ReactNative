@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react'
 import { Text, View, TouchableOpacity, ScrollView, Image, StyleSheet, SafeAreaView, SectionList } from 'react-native'
 import { connect } from 'react-redux'
@@ -156,6 +157,7 @@ const HomeScreen = ({ getProductsVegetable, getProductsFruit, product: { product
             </Container>
         </>
     )
+
 
 }
 
