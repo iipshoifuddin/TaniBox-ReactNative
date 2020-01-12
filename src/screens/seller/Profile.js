@@ -16,27 +16,53 @@ import sColor from '../../public/styles/color';
 import sGlobal from '../../public/styles/';
 import color from '../../config';
 import axios from 'axios';
+import FormData from 'form-data';
 import {API_ENDPOINT} from 'react-native-dotenv';
-import {toastr} from '../../helpers/script';
+import {toastr, showImagePicker} from '../../helpers/script';
 
 const Profile = ({navigation}) => {
   let [data, setData] = useState(navigation.state.params);
   let [config, setConfig] = useState({error: false, loading: false});
+  const headers = {
+    headers: {
+      'content-type': 'application/json',
+      Authorization: 'Bearer ' + data.token,
+    },
+  };
   const handleSubmit = () => {
     setConfig({loading: true, error: false});
     axios
-      .put(`${API_ENDPOINT}profile`, {...data, name_of_seller: data.name})
-      .then(res => {
-        console.log(res);
+      .patch(
+        `${API_ENDPOINT}profile`,
+        {...data, name_of_seller: data.name},
+        headers,
+      )
+      .then(() => {
         setConfig({loading: false, error: false});
         toastr('Profile successfully updated.', 'success');
       })
-      .catch(err => {
-        console.log(`${API_ENDPOINT}profile`);
-        console.log(err);
+      .catch(() => {
         setConfig({loading: false, error: true});
         toastr('Failed to save profile.', 'danger');
       });
+  };
+  const pickImage = photo => {
+    showImagePicker(res => {
+      const {fileName, type, uri} = res;
+      const form = new FormData();
+      form.append('user_id', data.user_id);
+      form.append('image', {uri, type, name: fileName});
+      axios
+        .patch(`${API_ENDPOINT}profile/upload-${photo}`, form, headers)
+        .then(() => {
+          setConfig({loading: false, error: false});
+          toastr('Profile successfully updated.', 'success');
+        })
+        .catch(() => {
+          setConfig({loading: false, error: true});
+          toastr('Failed to save profile.', 'danger');
+        });
+    });
   };
   return (
     <Container>
@@ -49,7 +75,7 @@ const Profile = ({navigation}) => {
         <View style={sGlobal.center}>
           <ImageBackground
             style={[s.imgProfile, sGlobal.center, sColor.lightBgColor]}>
-            <Button transparent onPress={() => alert('aw')}>
+            <Button transparent onPress={() => pickImage('seller')}>
               <Image
                 source={require('../../public/images/no-image2.png')}
                 style={s.defaultImg}
@@ -96,7 +122,7 @@ const Profile = ({navigation}) => {
                   style={s._px}
                   placeholder="Store description"
                   value={data.description}
-                  handleChange={text => setData({...data, description: text})}
+                  onChangeText={text => setData({...data, description: text})}
                 />
               </Item>
             </ListItem>

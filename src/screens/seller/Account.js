@@ -12,7 +12,11 @@ import {
   Right,
   Icon,
 } from 'native-base';
-import {removeDataStorage, getDataStorage, toastr} from '../../helpers/script';
+import {
+  removeDataStorage,
+  getMultipleDataStorage,
+  toastr,
+} from '../../helpers/script';
 import sGlobal from '../../public/styles';
 import sColor from '../../public/styles/color';
 import color from '../../config';
@@ -21,15 +25,20 @@ import {API_ENDPOINT} from 'react-native-dotenv';
 
 export default function Profile({navigation: {navigate}}) {
   let [data, setData] = useState({});
+  let [config, setConfig] = useState({error: false, loading: false});
   useEffect(() => {
-    getDataStorage('id', id => {
+    getMultipleDataStorage(['id', 'token'], values => {
+      const id = values[0][1];
+      const token = values[1][1];
+      setConfig({loading: true, error: false});
       axios
         .get(`${API_ENDPOINT}profile/${id}`)
         .then(res => {
-          setData(res.data.data[0]);
+          setConfig({loading: false, error: false});
+          setData({...res.data.data[0], token});
         })
-        .catch(err => {
-          console.log(err);
+        .catch(() => {
+          setConfig({loading: false, error: true});
           toastr('Ops, network error');
         });
     });
@@ -51,9 +60,11 @@ export default function Profile({navigation: {navigate}}) {
               style={s.img}
             />
           </View>
-          <H2 style={[sGlobal.textCenter, sColor.lightColor]}>Toko Segar</H2>
+          <H2 style={[sGlobal.textCenter, sColor.lightColor]}>
+            {data.name_of_store}
+          </H2>
           <TextMedium style={[sGlobal.textCenter, sColor.lightColor]}>
-            toko@segar.com
+            {data.name}
           </TextMedium>
         </View>
         <List style={s.listContainer}>
@@ -65,7 +76,9 @@ export default function Profile({navigation: {navigate}}) {
             handlePress={() => navigate('Profile', data)}>
             Profile
           </ListArrow>
-          <ListArrow icon="pin">Address</ListArrow>
+          <ListArrow icon="pin" handlePress={() => navigate('Address', data)}>
+            Address
+          </ListArrow>
           <ListArrow icon="key">Password</ListArrow>
           <ListArrow
             icon="ios-close-circle"

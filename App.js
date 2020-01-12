@@ -31,6 +31,7 @@ import HomeSeller from './src/screens/seller/Home';
 import NotificationSeller from './src/screens/seller/Notification';
 import SellerAccount from './src/screens/seller/Account';
 import SellerProfile from './src/screens/seller/Profile';
+import SellerAddress from './src/screens/seller/Address';
 
 import {getDataStorage} from './src/helpers/script';
 
@@ -82,6 +83,7 @@ const NotificationStackSeller = createStackNavigator({
 const ProfileStackSeller = createStackNavigator({
   Account: SellerAccount,
   Profile: SellerProfile,
+  Address: SellerAddress,
   Upload: UploadProduct,
 });
 

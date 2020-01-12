@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {Toast} from 'native-base';
-// import ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-picker';
 const options = {
   title: 'Profile Picture',
   storageOptions: {
@@ -113,23 +113,36 @@ function validateImage(fileName, fileSize) {
   }
 }
 
-// function launchImageLibrary(callback) {
-//   ImagePicker.launchImageLibrary(options, res => {
-//     if (!res.didCancel && !res.error && !res.customButton) {
-//       const {fileName, fileSize} = res;
-//       const isValid = validateImage(fileName, fileSize);
-//       if (isValid) {
-//         callback(res);
-//       }
-//     }
-//   });
-// }
+function launchImageLibrary(callback) {
+  ImagePicker.launchImageLibrary(options, res => {
+    if (!res.didCancel && !res.error && !res.customButton) {
+      const {fileName, fileSize} = res;
+      const isValid = validateImage(fileName, fileSize);
+      if (isValid) {
+        callback(res);
+      }
+    }
+  });
+}
+
+function showImagePicker(callback) {
+  ImagePicker.showImagePicker(options, res => {
+    if (!res.didCancel && !res.error && !res.customButton) {
+      const {fileName, fileSize} = res;
+      const isValid = validateImage(fileName, fileSize);
+      if (isValid) {
+        callback(res);
+      }
+    }
+  });
+}
 
 export {
   timeConverter,
   validExtension,
   validateImage,
-  // launchImageLibrary,
+  launchImageLibrary,
+  showImagePicker,
   sessionCheck,
   clearSession,
   removeDataStorage,
