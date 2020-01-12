@@ -16,7 +16,17 @@ import _ from 'lodash'
 
 const EachProduct = ({ getProducts, product: { products, search, limit, sort, sortBy, overlay }, navigation }) => {
 
-    const category_id = navigation.state.params.category_id
+  useEffect(() => {
+    const getDataProducts = async () => {
+      try {
+        const response = await axios.get(
+          `http://34.202.135.29:4000/api/v1/products?category_id=${category_id}`,
+        );
+        getProducts(response);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
 
     const [searchMask, setSearchMask] = useState(search)
     const [limitMask, setLimitMask] = useState(limit)
@@ -186,35 +196,32 @@ const EachProduct = ({ getProducts, product: { products, search, limit, sort, so
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    itemName: {
-      fontSize: 16,
-      bottom: 25,
-      left: 10,
-      color: '#fff',
-      position: 'absolute',
-      fontWeight: '600'
-    },
-    itemCode: {
-      fontWeight: '600',
-      bottom: 10,
-      left: 12,
-      fontSize: 12,
-      position: 'absolute',
-      color: '#fff',
-    },
-    header: {
-      backgroundColor: '#FFFFFF',
-    },
-})
+  container: {
+    flex: 1,
+  },
+  itemName: {
+    fontSize: 16,
+    bottom: 25,
+    left: 10,
+    color: '#fff',
+    position: 'absolute',
+    fontWeight: '600',
+  },
+  itemCode: {
+    fontWeight: '600',
+    bottom: 10,
+    left: 12,
+    fontSize: 12,
+    position: 'absolute',
+    color: '#fff',
+  },
+  header: {
+    backgroundColor: '#FFFFFF',
+  },
+});
 
 const mapStateToProps = state => ({
-    product: state.product
-})
+  product: state.product,
+});
 
-export default connect(
-    mapStateToProps,
-    { getProducts }
-)(EachProduct)
+export default connect(mapStateToProps, {getProducts})(EachProduct);
