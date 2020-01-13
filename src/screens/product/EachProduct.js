@@ -202,7 +202,9 @@ const EachProduct = ({
                         borderRadius: 10,
                       }}
                       source={{
-                        uri: `http://34.202.135.29:4000/images/products/${item.photo}`,
+                        uri: `http://34.202.135.29:4000/images/products/${
+                          item.photo
+                        }`,
                       }}
                     />
                     <View
@@ -263,4 +265,7 @@ const mapStateToProps = state => ({
   product: state.product,
 });
 
-export default connect(mapStateToProps, {getProducts})(EachProduct);
+export default connect(
+  mapStateToProps,
+  {getProducts},
+)(EachProduct);
