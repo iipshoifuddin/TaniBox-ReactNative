@@ -47,13 +47,20 @@ const Address = ({navigation}) => {
   }, [province.key]);
   const handleSubmit = () => {
     const address = city.data[city.key];
-    console.log(address);
-    return;
     setConfig({loading: true, error: false});
     axios
       .patch(
         `${API_ENDPOINT}profile`,
-        {...data, name_of_seller: data.name},
+        {
+          ...data,
+          ...address,
+          name_of_seller: data.name,
+          province_name: address.province,
+          province: address.province_id,
+          city: address.city_id,
+          address: data.address1,
+          kecamatan: data.kecamatan1,
+        },
         headers('application/json', data.token),
       )
       .then(() => {
