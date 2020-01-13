@@ -1,11 +1,14 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import {API_ENDPOINT} from 'react-native-dotenv';
-
+let token = '';
+AsyncStorage.getItem('token', value => {
+  token = value;
+});
 const config = {
   headers: {
     'content-type': 'application/json',
-    Authorization: 'Bearer ' + AsyncStorage.getItem('token'),
+    Authorization: 'Bearer ' + token,
   },
 };
 
