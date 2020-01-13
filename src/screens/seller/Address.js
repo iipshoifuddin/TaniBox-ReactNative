@@ -28,7 +28,7 @@ const Address = ({navigation}) => {
         const key = res.findIndex(
           obj => obj.province_id === data.province1.toString(),
         );
-        setProvince({...province, data: [...res], key});
+        setProvince({...province, data: [...res], key: key === -1 ? 0 : key});
       })
       .catch(() => {
         toastr('Network error');
@@ -44,7 +44,7 @@ const Address = ({navigation}) => {
       .then(_ => {
         const res = _.data.data;
         const key = res.findIndex(obj => obj.city_id === data.city1.toString());
-        setCity({...city, data: res, key});
+        setCity({...city, data: res, key: key === -1 ? 0 : key});
       })
       .catch(() => {
         toastr('Network error');
@@ -75,6 +75,17 @@ const Address = ({navigation}) => {
         navigation.navigate('Account', {update: Math.random()});
       })
       .catch(() => {
+        // console.log(err);
+        console.log({
+          ...data,
+          ...address,
+          name_of_seller: data.name,
+          province_name: address.province,
+          province: address.province_id,
+          city: address.city_id,
+          address: data.address1,
+          kecamatan: data.kecamatan1,
+        });
         setConfig({loading: false, error: true});
         toastr('Failed to save profile.', 'danger');
       });

@@ -10,17 +10,21 @@ import {
   Content,
   Text,
   H2,
+  H3,
   List,
   ListItem,
   Left,
   Body,
   Right,
   Icon,
+  Button,
 } from 'native-base';
+import Modal from 'react-native-modal';
 import {
   removeDataStorage,
   getMultipleDataStorage,
   toastr,
+  clearSession,
 } from '../../helpers/script';
 import sGlobal from '../../public/styles';
 import sColor from '../../public/styles/color';
@@ -37,6 +41,7 @@ export default function Profile({
 }) {
   const update = params === 0 ? 0 : params.update;
   let [data, setData] = useState({});
+  let [deleteModal, setDeleteModal] = useState(false);
   let [config, setConfig] = useState({error: false, loading: false});
   useEffect(() => {
     getMultipleDataStorage(['id', 'token'], values => {
@@ -62,8 +67,61 @@ export default function Profile({
       }
     });
   };
+  const deleteAccount = () => {
+    axios
+      .delete(`${API_ENDPOINT}profile`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token,
+        },
+        data: {user_id: data.user_id},
+      })
+      .then(() => {
+        setConfig({loading: false, error: false});
+        setDeleteModal(false);
+        clearSession(() => navigate('Auth'));
+      })
+      .catch(() => {
+        setConfig({loading: false, error: true});
+        setDeleteModal(false);
+        toastr('Ops, network error');
+      });
+  };
   return (
     <Container>
+      <Modal
+        onBackButtonPress={() => setDeleteModal(false)}
+        onBackdropPress={() => setDeleteModal(false)}
+        animationIn="pulse"
+        animationOut="fadeOut"
+        isVisible={deleteModal}>
+        <View style={[sColor.lightBgColor, s.modal]}>
+          <View>
+            <H3 style={[sColor.dangerColor, sGlobal.textCenter]}>
+              Delete Account
+            </H3>
+            <TextMedium style={[sGlobal.textCenter, s.modalMessage]}>
+              Are you sure to delete this account?
+            </TextMedium>
+            <View>
+              <View style={sGlobal.flexRow}>
+                <Button
+                  danger
+                  style={[sGlobal.w1_2, sGlobal.center, s.modalButton]}
+                  onPress={deleteAccount}>
+                  <Text>Delete</Text>
+                </Button>
+                <Button
+                  light
+                  style={[sGlobal.w1_2, sGlobal.center, s.modalButton]}
+                  onPress={() => setDeleteModal(false)}>
+                  <Text>Cancel</Text>
+                </Button>
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <Content>
         <View style={[sColor.secondaryBgColor, s.banner]}>
           <View style={[sGlobal.center, s.imgContainer]}>
@@ -108,7 +166,7 @@ export default function Profile({
             icon="ios-close-circle"
             last
             style={sColor.dangerColor}
-            handlePress={() => alert('Eits, tidak bisa.')}>
+            handlePress={() => setDeleteModal(true)}>
             Delete Account
           </ListArrow>
 
@@ -133,6 +191,16 @@ export default function Profile({
 }
 
 const s = StyleSheet.create({
+  modal: {
+    paddingVertical: 24,
+  },
+  modalMessage: {
+    paddingTop: 20,
+    paddingBottom: 20 * 2,
+  },
+  modalButton: {
+    borderRadius: 0,
+  },
   banner: {
     paddingVertical: 32,
   },
@@ -181,6 +249,8 @@ const ListArrow = ({children, icon, style, last, handlePress}) => {
     </View>
   );
 };
+
+// profile - delete (method)
 
 Profile.navigationOptions = {
   title: 'Account',
