@@ -99,19 +99,17 @@ export default function Profile({
           <ListArrow icon="pin" handlePress={() => push('Address', data)}>
             Address
           </ListArrow>
-          <ListArrow icon="key">Password</ListArrow>
+          <ListArrow
+            icon="key"
+            handlePress={() => push('ChangePassword', data)}>
+            Password
+          </ListArrow>
           <ListArrow
             icon="ios-close-circle"
+            last
             style={sColor.dangerColor}
             handlePress={() => alert('Eits, tidak bisa.')}>
             Delete Account
-          </ListArrow>
-          <ListArrow
-            icon="log-out"
-            last
-            style={sColor.primaryColor}
-            handlePress={signOut}>
-            Logout
           </ListArrow>
 
           <ListItem itemDivider style={sColor.lightBgColor}>
@@ -120,6 +118,13 @@ export default function Profile({
           <ListArrow icon="ios-help-circle">Help</ListArrow>
           <ListArrow icon="ios-information-circle" last>
             About
+          </ListArrow>
+          <ListArrow
+            icon="log-out"
+            last
+            style={sColor.primaryColor}
+            handlePress={signOut}>
+            Logout
           </ListArrow>
         </List>
       </Content>

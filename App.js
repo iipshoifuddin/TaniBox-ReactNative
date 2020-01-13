@@ -14,10 +14,9 @@ import SignIn from './src/screens/auth/SignIn';
 import SignUp from './src/screens/auth/SignUp';
 import ForgotPassword from './src/screens/auth/ForgotPassword';
 import ResetPassword from './src/screens/auth/ResetPassword';
-// import updatePassword from './src/screens/auth/UpdatePassword';
 import Home from './src/screens/buyer/Home';
 import Profile from './src/screens/buyer/Profile';
-import EditProfileBuyer from './src/screens/buyer/EditProfile'
+import EditProfileBuyer from './src/screens/buyer/EditProfile';
 import Wishlist from './src/screens/buyer/Wishlist/Wishlist';
 import Notification from './src/screens/buyer/Notification/Notifications';
 import Cart from './src/screens/buyer/Cart';
@@ -36,6 +35,7 @@ import NotificationSeller from './src/screens/seller/Notification';
 import SellerAccount from './src/screens/seller/Account';
 import SellerProfile from './src/screens/seller/Profile';
 import SellerAddress from './src/screens/seller/Address';
+import ChangeSellerPassword from './src/screens/seller/ChangePassword';
 
 import {getDataStorage} from './src/helpers/script';
 
@@ -53,11 +53,11 @@ const HomeStack = createStackNavigator({
     },
   },
   EachProduct: {
-      screen: EachProduct,
-      navigationOptions: {
-          headerShown: false
-      }
-  }
+    screen: EachProduct,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
 });
 
 const SellerStack = createStackNavigator({
@@ -87,7 +87,7 @@ const NotificationStack = createStackNavigator({
   },
   SingleNotification,
 });
-const ProfileStack = createStackNavigator({  
+const ProfileStack = createStackNavigator({
   Profile: {
     screen: Profile,
     navigationOptions: {
@@ -101,7 +101,6 @@ const AuthStack = createStackNavigator({
   SignUp,
   ForgotPassword,
   ResetPassword,
-  // updatePassword,
 });
 const NotificationStackSeller = createStackNavigator({
   Notification: NotificationSeller,
@@ -111,6 +110,7 @@ const ProfileStackSeller = createStackNavigator({
   Profile: SellerProfile,
   Address: SellerAddress,
   Upload: UploadProduct,
+  ChangePassword: ChangeSellerPassword,
 });
 
 const sellerBottom = {

@@ -4,13 +4,13 @@ import {Button, Text} from 'native-base';
 import sColor from '../public/styles/color';
 import sGlobal from '../public/styles/';
 
-export const ButtonPrimary = ({text, handleSubmit}) => {
+export const ButtonPrimary = ({text, children, handleSubmit}) => {
   return (
     <View style={s.button}>
       <Button
         style={[sGlobal.center, sColor.secondaryBgColor]}
         onPress={handleSubmit}>
-        <Text>{text}</Text>
+        {children ? children : <Text>{text}</Text>}
       </Button>
     </View>
   );
