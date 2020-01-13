@@ -33,7 +33,9 @@ const clearSession = async callback => {
     toastr('Ops, something error');
   }
 
-  callback();
+  if (typeof callback === 'function') {
+    callback();
+  }
 };
 
 const removeDataStorage = async (item, callback) => {

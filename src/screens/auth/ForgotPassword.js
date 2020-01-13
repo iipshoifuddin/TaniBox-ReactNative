@@ -29,7 +29,7 @@ const ForgotPassword = props => {
     if (config.loading) {
       return;
     } else if (!email) {
-      return toastr('Please input your email.', 'danger');
+      return toastr('Please input your email.');
     }
     setConfig({loading: true, error: false});
     axios
