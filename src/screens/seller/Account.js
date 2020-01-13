@@ -36,7 +36,6 @@ export default function Profile({
   },
 }) {
   const update = params === 0 ? 0 : params.update;
-  console.log(update);
   let [data, setData] = useState({});
   let [config, setConfig] = useState({error: false, loading: false});
   useEffect(() => {
