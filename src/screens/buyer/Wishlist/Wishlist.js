@@ -5,10 +5,19 @@ import OneSignal from 'react-native-onesignal';
 // import {ONESIGNAL_API_KEY} from 'react-native-dotenv';
 import {connect} from 'react-redux';
 import {fetchWishlistAll} from '../../../public/redux/actions/Wishlist';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class WishlistScreen extends Component {
   async componentDidMount() {
-    await this.props.fetch(19);
+    let token = await AsyncStorage.getItem('token');
+
+    const config = {
+      headers: {
+        'content-type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    await this.props.fetch(19, config);
     await this.fetchData();
   }
   componentWillUnmount() {
@@ -108,7 +117,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetch: user_id => dispatch(fetchWishlistAll(user_id)),
+  fetch: (user_id, config) => dispatch(fetchWishlistAll(user_id, config)),
 });
 
 export default connect(
