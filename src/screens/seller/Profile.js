@@ -30,12 +30,21 @@ const Profile = ({navigation}) => {
     axios
       .patch(
         `${API_ENDPOINT}profile`,
-        {...data, name_of_seller: data.name},
+        {
+          ...data,
+          name_of_seller: data.name,
+          province_name: data.province1_name,
+          province: data.province1,
+          city: data.city1,
+          address: data.address1,
+          kecamatan: data.kecamatan1,
+        },
         headers('application/json', data.token),
       )
       .then(() => {
         setConfig({loading: false, error: false});
         toastr('Profile successfully updated.', 'success');
+        navigation.navigate('Account', {update: Math.random()});
       })
       .catch(() => {
         setConfig({loading: false, error: true});

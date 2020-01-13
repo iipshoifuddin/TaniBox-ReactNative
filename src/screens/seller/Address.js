@@ -66,6 +66,7 @@ const Address = ({navigation}) => {
       .then(() => {
         setConfig({loading: false, error: false});
         toastr('Profile successfully updated.', 'success');
+        navigation.navigate('Account', {update: Math.random()});
       })
       .catch(() => {
         setConfig({loading: false, error: true});
