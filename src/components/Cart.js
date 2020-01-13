@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {StyleSheet, View, Text as TextMedium} from 'react-native';
 import {
   List,
@@ -12,45 +12,93 @@ import {
   Icon,
 } from 'native-base';
 import sColor from '../public/styles/color';
+import {API_ENDPOINT} from 'react-native-dotenv';
 
-const Cart = props => {
-  const {name, weight, price, img} = props;
-  return (
-    <List style={[sColor.grayBgColor, s.list]}>
-      <ListItem thumbnail noBorder>
-        <Left>
-          <Thumbnail square source={{uri: img}} />
-        </Left>
-        <Body>
-          <Text>{name}</Text>
-          <Text note numberOfLines={1}>
-            {weight}
-          </Text>
-          <View style={s.cartFoot}>
-            <TextMedium>Rp{price}</TextMedium>
-            <View style={s.action}>
-              <Button transparent>
-                <Icon name="add" style={sColor.regularGrayColor} />
-              </Button>
-              <Text
-                style={[s.count, sColor.lightBgColor, sColor.regularGrayColor]}>
-                1
-              </Text>
-              <Button transparent>
-                <Icon name="remove" style={sColor.regularGrayColor} />
-              </Button>
+import {connect} from 'react-redux';
+import {addQty, fetchCart} from '../public/redux/actions/Cart';
+
+export class Cart extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  increase = async () => {
+    let {id, product_id, user_id, qty, unit_price} = this.props;
+    qty = qty + 1;
+    const data = {
+      cart_id: id,
+      product_id: product_id,
+      user_id: user_id,
+      qty: qty,
+      unit_price: unit_price,
+    };
+    const urlFetch = `${API_ENDPOINT}products/${user_id}/cart`;
+    const url = `${API_ENDPOINT}products/update-cart`;
+    await this.props.addQty(url, data).then(res => {
+      this.props.fetchCart(urlFetch);
+    });
+  };
+
+  decrease = async () => {
+    let {id, product_id, user_id, qty, unit_price} = this.props;
+    qty = qty - 1;
+    const data = {
+      cart_id: id,
+      product_id: product_id,
+      user_id: user_id,
+      qty: qty,
+      unit_price: unit_price,
+    };
+    const urlFetch = `${API_ENDPOINT}products/${user_id}/cart`;
+    const url = `${API_ENDPOINT}products/update-cart`;
+    await this.props.addQty(url, data).then(res => {
+      this.props.fetchCart(urlFetch);
+    });
+  };
+
+  render() {
+    const {name, weight, price, img, qty} = this.props;
+    return (
+      <List style={[sColor.grayBgColor, s.list]}>
+        <ListItem thumbnail noBorder>
+          <Left>
+            <Thumbnail square source={{uri: img}} />
+          </Left>
+          <Body>
+            <Text>{name}</Text>
+            <Text note numberOfLines={1}>
+              {weight}
+            </Text>
+            <View style={s.cartFoot}>
+              <TextMedium>Rp{price}</TextMedium>
+              <View style={s.action}>
+                <Button transparent onPress={this.increase}>
+                  <Icon name="add" style={sColor.regularGrayColor} />
+                </Button>
+                <Text
+                  style={[
+                    s.count,
+                    sColor.lightBgColor,
+                    sColor.regularGrayColor,
+                  ]}>
+                  {qty}
+                </Text>
+                <Button transparent onPress={this.decrease}>
+                  <Icon name="remove" style={sColor.regularGrayColor} />
+                </Button>
+              </View>
             </View>
-          </View>
-        </Body>
-        <Right>
-          <Button transparent style={s.remove}>
-            <Icon name="close" style={sColor.regularGrayColor} />
-          </Button>
-        </Right>
-      </ListItem>
-    </List>
-  );
-};
+          </Body>
+          <Right>
+            <Button transparent style={s.remove}>
+              <Icon name="close" style={sColor.regularGrayColor} />
+            </Button>
+          </Right>
+        </ListItem>
+      </List>
+    );
+  }
+}
 
 const s = StyleSheet.create({
   list: {marginVertical: 5},
@@ -76,4 +124,16 @@ const s = StyleSheet.create({
   textCenter: {justifyContent: 'center'},
 });
 
-export default Cart;
+const mapStateToProps = state => ({
+  propsData: state.cart,
+});
+
+const mapDispatchToProps = dispatch => ({
+  addQty: (url, data) => dispatch(addQty(url, data)),
+  fetchCart: url => dispatch(fetchCart(url)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Cart);
