@@ -1,0 +1,71 @@
+[33mcommit 1db93032b8250364fa2fd07ecf1c11325125b2a3[m
+Author: halim13 <hasanudinhalim@gmail.com>
+Date:   Sun Jan 12 21:58:21 2020 +0700
+
+    fix
+
+[1mdiff --git a/src/screens/product/DetailProduct.js b/src/screens/product/DetailProduct.js[m
+[1mindex dd28f49..1d8fe70 100644[m
+[1m--- a/src/screens/product/DetailProduct.js[m
+[1m+++ b/src/screens/product/DetailProduct.js[m
+[36m@@ -38,7 +38,7 @@[m [mconst DetailProduct = ({getProduct, product: {product}, navigation}) => {[m
+     };[m
+ [m
+     getSingleProduct(product_id);[m
+[31m-  }, [product_id]);[m
+[32m+[m[32m  }, [getProduct, product_id]);[m
+ [m
+   return ([m
+     <>[m
+[36m@@ -175,4 +175,7 @@[m [mconst mapStateToProps = state => ({[m
+   product: state.product,[m
+ });[m
+ [m
+[31m-export default connect(mapStateToProps, {getProduct})(DetailProduct);[m
+[32m+[m[32mexport default connect([m
+[32m+[m[32m  mapStateToProps,[m
+[32m+[m[32m  {getProduct},[m
+[32m+[m[32m)(DetailProduct);[m
+[1mdiff --git a/src/screens/product/EachProduct.js b/src/screens/product/EachProduct.js[m
+[1mindex 4fd1c75..4481d9d 100644[m
+[1m--- a/src/screens/product/EachProduct.js[m
+[1m+++ b/src/screens/product/EachProduct.js[m
+[36m@@ -29,7 +29,7 @@[m [mconst EachProduct = ({getProducts, product: {products}, navigation}) => {[m
+     };[m
+ [m
+     getDataProducts();[m
+[31m-  }, [category_id]);[m
+[32m+[m[32m  }, [category_id, getProducts]);[m
+ [m
+   return ([m
+     <>[m
+[36m@@ -62,7 +62,9 @@[m [mconst EachProduct = ({getProducts, product: {products}, navigation}) => {[m
+                         borderRadius: 10,[m
+                       }}[m
+                       source={{[m
+[31m-                        uri: `http://34.202.135.29:4000/images/products/${item.photo}`,[m
+[32m+[m[32m                        uri: `http://34.202.135.29:4000/images/products/${[m
+[32m+[m[32m                          item.photo[m
+[32m+[m[32m                        }`,[m
+                       }}[m
+                     />[m
+                     <View[m
+[36m@@ -73,7 +75,8 @@[m [mconst EachProduct = ({getProducts, product: {products}, navigation}) => {[m
+                         borderRadius: 10,[m
+                         padding: 10,[m
+                         backgroundColor: 'rgba(0,0,0, 0.5)',[m
+[31m-                      }}></View>[m
+[32m+[m[32m                      }}[m
+[32m+[m[32m                    />[m
+                     <Text style={styles.itemName}>{item.name}</Text>[m
+                     <Text style={styles.itemCode}>{item.price}</Text>[m
+                   </TouchableOpacity>[m
+[36m@@ -117,4 +120,7 @@[m [mconst mapStateToProps = state => ({[m
+   product: state.product,[m
+ });[m
+ [m
+[31m-export default connect(mapStateToProps, {getProducts})(EachProduct);[m
+[32m+[m[32mexport default connect([m
+[32m+[m[32m  mapStateToProps,[m
+[32m+[m[32m  {getProducts},[m
+[32m+[m[32m)(EachProduct);[m

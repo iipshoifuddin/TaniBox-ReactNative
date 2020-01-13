@@ -15,12 +15,10 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import axios from 'axios';
-import Carousel from 'react-native-anchor-carousel';
 import {connect} from 'react-redux';
 import {getProduct} from '../../public/redux/actions/product';
-import loadingBlurImage from '../../public/images/loading-blur.jpeg';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import DetailProductItem from '../../components/DetailProductItem';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const DetailProduct = ({getProduct, product: {product}, navigation}) => {
   const product_id = navigation.state.params.product_id;
@@ -36,7 +34,6 @@ const DetailProduct = ({getProduct, product: {product}, navigation}) => {
         console.error(error);
       }
     };
-
     getSingleProduct(product_id);
   }, [getProduct, product_id]);
 

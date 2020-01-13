@@ -20,17 +20,19 @@ import {Button} from 'native-base';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-community/async-storage';
+import {connect} from 'react-redux';
+import {addWishlist} from '../public/redux/actions/Wishlist';
+import Axios from 'axios';
 
 const DetailProductItem = ({item}) => {
   let user_id = '';
-  AsyncStorage.getItem('token').then(value => {
+  AsyncStorage.getItem('id').then(value => {
     user_id = value;
-    console.warn(user_id);
   });
 
   let name, photo, description, price, id;
 
-  console.log(item);
+  // console.log(item);
 
   if (typeof item === 'undefined' || item === null) {
     return false;
@@ -47,6 +49,31 @@ const DetailProductItem = ({item}) => {
 
   const toggleWish = async event => {
     setWish(event);
+    // if (event) {
+    //   let token = '';
+    //   AsyncStorage.getItem('token').then(value => {
+    //     token = value;
+    //   });
+    //   const data = {
+    //     product_id: id,
+    //     user_id: user_id,
+    //   };
+    //   const config = {
+    //     headers: {
+    //       'content-type': 'application/json',
+    //       Authorization: 'Bearer ' + token,
+    //     },
+    //   };
+    //   await Axios.post(
+    //     'http://34.202.135.29:4000/api/v1/products/wishlist',
+    //     data,
+    //     config,
+    //   ).then(() => {
+    //     setWish(event);
+    //   });
+    // } else {
+    //   ('');
+    // }
   };
 
   return (
@@ -220,4 +247,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DetailProductItem;
+const mapStateToProps = state => ({
+  wishlist: state.wishlist.data.data,
+  isLoading: state.wishlist.isLoading,
+  isError: state.wishlist.isError,
+});
+
+const mapDispatchToProps = dispatch => ({
+  add: data => dispatch(addWishlist(data)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DetailProductItem);
+
+// export default DetailProductItem;
