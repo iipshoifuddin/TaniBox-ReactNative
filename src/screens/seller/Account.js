@@ -1,5 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text as TextMedium, View, Image} from 'react-native';
+import {
+  StyleSheet,
+  Text as TextMedium,
+  View,
+  ImageBackground,
+} from 'react-native';
 import {
   Container,
   Content,
@@ -21,9 +26,17 @@ import sGlobal from '../../public/styles';
 import sColor from '../../public/styles/color';
 import color from '../../config';
 import axios from 'axios';
-import {API_ENDPOINT} from 'react-native-dotenv';
+import {BASE_URL, API_ENDPOINT} from 'react-native-dotenv';
 
-export default function Profile({navigation: {navigate}}) {
+export default function Profile({
+  navigation: {
+    navigate,
+    push,
+    state: {params = 0},
+  },
+}) {
+  const update = params === 0 ? 0 : params.update;
+  console.log(update);
   let [data, setData] = useState({});
   let [config, setConfig] = useState({error: false, loading: false});
   useEffect(() => {
@@ -42,7 +55,7 @@ export default function Profile({navigation: {navigate}}) {
           toastr('Ops, network error');
         });
     });
-  }, []);
+  }, [update]);
   const signOut = () => {
     removeDataStorage('token', err => {
       if (!err) {
@@ -55,10 +68,20 @@ export default function Profile({navigation: {navigate}}) {
       <Content>
         <View style={[sColor.secondaryBgColor, s.banner]}>
           <View style={[sGlobal.center, s.imgContainer]}>
-            <Image
-              source={require('../../public/images/seller-no-photo.png')}
-              style={s.img}
-            />
+            <View style={s.imgView}>
+              <ImageBackground
+                source={require('../../public/images/seller-no-photo.png')}
+                imageStyle={s.imgCircle}
+                style={[s.img, s.border, s.imgCircle]}>
+                <ImageBackground
+                  source={{
+                    uri: `${BASE_URL}images/profile/${data.photo_profile}`,
+                  }}
+                  imageStyle={s.imgCircle}
+                  style={s.img}
+                />
+              </ImageBackground>
+            </View>
           </View>
           <H2 style={[sGlobal.textCenter, sColor.lightColor]}>
             {data.name_of_store}
@@ -71,12 +94,10 @@ export default function Profile({navigation: {navigate}}) {
           <ListItem itemDivider style={sColor.lightBgColor}>
             <Text>Settings</Text>
           </ListItem>
-          <ListArrow
-            icon="contact"
-            handlePress={() => navigate('Profile', data)}>
+          <ListArrow icon="contact" handlePress={() => push('Profile', data)}>
             Profile
           </ListArrow>
-          <ListArrow icon="pin" handlePress={() => navigate('Address', data)}>
+          <ListArrow icon="pin" handlePress={() => push('Address', data)}>
             Address
           </ListArrow>
           <ListArrow icon="key">Password</ListArrow>
@@ -114,9 +135,16 @@ const s = StyleSheet.create({
   imgContainer: {
     marginBottom: 20,
   },
+  imgView: {position: 'relative', width: 75, height: 75},
+  imgCircle: {borderRadius: 75 / 2},
   img: {
-    width: 75,
-    height: 75,
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+  },
+  border: {
+    borderColor: color.light,
+    borderWidth: 2.5,
   },
   listContainer: {
     paddingVertical: 15,

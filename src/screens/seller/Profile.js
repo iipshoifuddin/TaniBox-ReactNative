@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, ImageBackground, Image} from 'react-native';
+import React, {useState} from 'react';
+import {View, ImageBackground, Image} from 'react-native';
 import {
   Container,
   Content,
@@ -14,28 +14,24 @@ import {
 } from 'native-base';
 import sColor from '../../public/styles/color';
 import sGlobal from '../../public/styles/';
-import color from '../../config';
+import s from '../../public/styles/SellerProfile';
+import color, {headers} from '../../config';
 import axios from 'axios';
 import FormData from 'form-data';
-import {API_ENDPOINT} from 'react-native-dotenv';
+import {BASE_URL, API_ENDPOINT} from 'react-native-dotenv';
 import {toastr, showImagePicker} from '../../helpers/script';
+import {ButtonPrimary} from '../../components/Button';
 
 const Profile = ({navigation}) => {
   let [data, setData] = useState(navigation.state.params);
   let [config, setConfig] = useState({error: false, loading: false});
-  const headers = {
-    headers: {
-      'content-type': 'application/json',
-      Authorization: 'Bearer ' + data.token,
-    },
-  };
   const handleSubmit = () => {
     setConfig({loading: true, error: false});
     axios
       .patch(
         `${API_ENDPOINT}profile`,
         {...data, name_of_seller: data.name},
-        headers,
+        headers('application/json', data.token),
       )
       .then(() => {
         setConfig({loading: false, error: false});
@@ -52,33 +48,47 @@ const Profile = ({navigation}) => {
       const form = new FormData();
       form.append('user_id', data.user_id);
       form.append('image', {uri, type, name: fileName});
+      setConfig({loading: true, error: false});
       axios
-        .patch(`${API_ENDPOINT}profile/upload-${photo}`, form, headers)
+        .patch(
+          `${API_ENDPOINT}profile/upload-${photo}`,
+          form,
+          headers('multipart/form-data', data.token),
+        )
         .then(() => {
           setConfig({loading: false, error: false});
           toastr('Profile successfully updated.', 'success');
+          navigation.navigate('Account', {update: Math.random()});
         })
         .catch(() => {
           setConfig({loading: false, error: true});
-          toastr('Failed to save profile.', 'danger');
+          toastr('Failed to save profile. Check your network.', 'danger');
         });
     });
   };
   return (
     <Container>
       <Content>
-        <ImageBackground style={[s.imgCover, sColor.primaryBgColor]}>
-          <Button transparent light style={s.editCover}>
+        <ImageBackground
+          source={{uri: `${BASE_URL}images/store/${data.photo_store}`}}
+          style={[s.imgCover, sColor.primaryBgColor]}>
+          <Button
+            transparent
+            light
+            style={s.editCover}
+            onPress={() => pickImage('store')}>
             <Text>Edit Cover</Text>
           </Button>
         </ImageBackground>
         <View style={sGlobal.center}>
           <ImageBackground
+            source={{uri: `${BASE_URL}images/profile/${data.photo_profile}`}}
+            imageStyle={s.imgProfileStyle}
             style={[s.imgProfile, sGlobal.center, sColor.lightBgColor]}>
             <Button transparent onPress={() => pickImage('seller')}>
               <Image
                 source={require('../../public/images/no-image2.png')}
-                style={s.defaultImg}
+                style={[s.defaultImg, data.photo_profile && s.invisible]}
               />
             </Button>
           </ImageBackground>
@@ -127,13 +137,7 @@ const Profile = ({navigation}) => {
               </Item>
             </ListItem>
           </List>
-          <View style={s.button}>
-            <Button
-              style={[sGlobal.center, sColor.secondaryBgColor]}
-              onPress={handleSubmit}>
-              <Text>Save</Text>
-            </Button>
-          </View>
+          <ButtonPrimary text="Save" handleSubmit={handleSubmit} />
         </View>
       </Content>
     </Container>
@@ -172,60 +176,6 @@ const ListInput = ({
     </ListItem>
   );
 };
-
-const s = StyleSheet.create({
-  imgCover: {
-    height: 150,
-    position: 'relative',
-  },
-  editCover: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-  },
-  imgProfile: {
-    width: 75,
-    height: 75,
-    marginTop: -75 / 2,
-    borderRadius: 75 / 2,
-    borderColor: color.secondary,
-    borderWidth: 2.5,
-    position: 'relative',
-  },
-  defaultImg: {
-    width: 25,
-    height: 25,
-  },
-  listInput: {
-    flexWrap: 'wrap',
-    paddingTop: 0,
-    paddingBottom: 0,
-  },
-  inputDescription: {
-    paddingLeft: 0,
-    paddingRight: 0,
-  },
-  inputHeight: {
-    height: 50,
-  },
-  fzInput: {fontSize: 17},
-  descriptionText: {
-    alignSelf: 'flex-start',
-  },
-  button: {
-    paddingHorizontal: 32,
-    marginTop: 20,
-    marginBottom: 15,
-  },
-  flex: {flex: 1, justifyContent: 'center'},
-  textRight: {textAlign: 'right'},
-  textLeft: {textAlign: 'left'},
-  noBorderBottom: {borderBottomWidth: 0},
-  _pb: {paddingBottom: 0},
-  _py: {paddingTop: 0, paddingBottom: 0},
-  _px: {paddingLeft: 0, paddingRight: 0},
-  _ml: {marginLeft: 0},
-});
 
 Profile.navigationOptions = {
   title: 'Edit Profile',

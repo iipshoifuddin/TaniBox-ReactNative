@@ -14,6 +14,7 @@ import SignIn from './src/screens/auth/SignIn';
 import SignUp from './src/screens/auth/SignUp';
 import ForgotPassword from './src/screens/auth/ForgotPassword';
 import ResetPassword from './src/screens/auth/ResetPassword';
+// import updatePassword from './src/screens/auth/UpdatePassword';
 import Home from './src/screens/buyer/Home';
 import Profile from './src/screens/buyer/Profile';
 import EditProfileBuyer from './src/screens/buyer/EditProfile'
@@ -100,6 +101,7 @@ const AuthStack = createStackNavigator({
   SignUp,
   ForgotPassword,
   ResetPassword,
+  // updatePassword,
 });
 const NotificationStackSeller = createStackNavigator({
   Notification: NotificationSeller,

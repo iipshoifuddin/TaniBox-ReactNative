@@ -11,4 +11,11 @@ const color = {
   danger: '#F32013',
 };
 
+export const headers = (contentType, token) => ({
+  headers: {
+    'Content-Type': contentType,
+    Authorization: 'Bearer ' + token,
+  },
+});
+
 export default color;

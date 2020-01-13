@@ -105,9 +105,9 @@ function validateImage(fileName, fileSize) {
   const ext = split[split.length - 1].toLocaleLowerCase();
   const acceptableExts = ['png', 'jpg', 'jpeg'];
   if (validExtension(ext, acceptableExts) !== true) {
-    toastr('Image not accepted.');
+    toastr('Invalid image extension.', 'danger');
   } else if (fileSize > 1024 * 1024) {
-    toastr('Image too large. Max: 1mb');
+    toastr('Image too large. Max: 1mb', 'danger');
   } else {
     return true;
   }
