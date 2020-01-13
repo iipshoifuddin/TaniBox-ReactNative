@@ -17,9 +17,9 @@ export const fetchWishlist = user_id => ({
   payload: axios.get(`${API_ENDPOINT}products/wishlist/${user_id}`, config),
 });
 
-export const fetchWishlistAll = user_id => ({
+export const fetchWishlistAll = (user_id, configs) => ({
   type: 'WISHLIST_FETCH',
-  payload: axios.get(`${API_ENDPOINT}products/wishlist`, user_id, config),
+  payload: axios.get(`${API_ENDPOINT}products/wishlist`, user_id, configs),
 });
 
 export const addWishlist = formData => ({
