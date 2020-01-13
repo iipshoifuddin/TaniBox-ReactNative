@@ -186,4 +186,5 @@ Profile.navigationOptions = {
   headerTitleStyle: {textAlign: 'center', alignSelf: 'center'},
 };
 
+// hapus cuy
 export default Profile;
