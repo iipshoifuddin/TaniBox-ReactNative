@@ -17,14 +17,18 @@ import {headers} from '../../config';
 
 const Address = ({navigation}) => {
   const [data, setData] = useState(navigation.state.params);
-  const [province, setProvince] = useState({data: [], key: 0});
+  const [province, setProvince] = useState({data: [], key: 0, change: false});
   const [city, setCity] = useState({data: [], key: 0});
   const [config, setConfig] = useState({error: false, loading: false});
   useEffect(() => {
     axios
       .get(`${API_ENDPOINT}shipment/province`)
-      .then(res => {
-        setProvince({...province, data: [...res.data.data]});
+      .then(_ => {
+        const res = _.data.data;
+        const key = res.findIndex(
+          obj => obj.province_id === data.province1.toString(),
+        );
+        setProvince({...province, data: [...res], key});
       })
       .catch(() => {
         toastr('Network error');
@@ -37,8 +41,10 @@ const Address = ({navigation}) => {
       : '';
     axios
       .get(`${API_ENDPOINT}shipment/city${endpoint}`)
-      .then(res => {
-        setCity({...city, data: [...res.data.data]});
+      .then(_ => {
+        const res = _.data.data;
+        const key = res.findIndex(obj => obj.city_id === data.city1.toString());
+        setCity({...city, data: res, key});
       })
       .catch(() => {
         toastr('Network error');
@@ -84,7 +90,9 @@ const Address = ({navigation}) => {
               mode="dropdown"
               style={sGlobal.wFull}
               selectedValue={province.key}
-              onValueChange={value => setProvince({...province, key: value})}>
+              onValueChange={value =>
+                setProvince({...province, key: value, change: true})
+              }>
               {province.data.map((elm, i) => (
                 <Picker.Item key={i} label={elm.province} value={i} />
               ))}
