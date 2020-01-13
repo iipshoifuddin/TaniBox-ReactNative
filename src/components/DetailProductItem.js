@@ -59,7 +59,7 @@ const DetailProductItem = ({ item }) => {
                 <View style={styles.view}>
                   <View>
                     <Text style={[styles.h1, styles.primaryColor]}> { name } </Text>
-                    <Text style={styles.price}>Rp. { price } / Kg</Text>
+                    <Text style={styles.price}>Rp. { price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') }  / Kg</Text>
                   </View>
                   <TouchableOpacity onPress={e => toggleWish(e)}>
                     <Ionicons
