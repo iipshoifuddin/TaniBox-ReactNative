@@ -52,7 +52,7 @@ BLUE = #686FCA
 
 ## Running
 
-To run this application, you must run the following commandb:
+To run this application, you must run the following command :
 
 ```sh
 npx react-native run-android
