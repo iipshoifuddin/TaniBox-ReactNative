@@ -33,8 +33,10 @@ const s = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  rounded: {borderRadius: 3},
   textCenter: {textAlign: 'center'},
   wFull: {width: '100%'},
+  w1_2: {width: '50%'},
 });
 
 export default s;

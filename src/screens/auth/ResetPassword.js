@@ -30,7 +30,7 @@ const ResetPassword = ({navigation}) => {
     if (config.loading) {
       return;
     } else if (!password || !confirmPassword || OTPCode.length !== 4) {
-      toastr('Please fill out all of this field.', 'danger');
+      toastr('Please fill out all of this field.');
       return;
     } else if (password !== confirmPassword) {
       toastr("Confirm password doesn't match.", 'danger');

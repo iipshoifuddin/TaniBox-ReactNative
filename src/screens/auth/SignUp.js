@@ -31,7 +31,7 @@ const SignUpScreen = props => {
   });
   const handleSubmit = () => {
     if (!username || !email || !password || !confirmPassword) {
-      toastr('Please fill out all of this field.', 'danger');
+      toastr('Please fill out all of this field.');
       return;
     }
     if (password !== confirmPassword) {
@@ -62,7 +62,7 @@ const SignUpScreen = props => {
       })
       .catch(() => {
         setConfig({loading: false, error: true});
-        toastr('Username or email already registered', 'danger');
+        toastr('Sory, username or email already registered.');
       });
   };
 
