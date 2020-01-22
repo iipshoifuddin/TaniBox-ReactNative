@@ -146,7 +146,13 @@ const Profile = ({navigation}) => {
               </Item>
             </ListItem>
           </List>
-          <ButtonPrimary text="Save" handleSubmit={handleSubmit} />
+          <View style={s.button}>
+            <Button
+              style={[sGlobal.center, sColor.secondaryBgColor]}
+              onPress={handleSubmit}>
+              <Text>Save</Text>
+            </Button>
+          </View>
         </View>
       </Content>
     </Container>

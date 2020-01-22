@@ -2,13 +2,22 @@ import React, {Component} from 'react';
 import {View, FlatList, RefreshControl, ActivityIndicator} from 'react-native';
 import CardWishlist from './CardWishlist';
 import OneSignal from 'react-native-onesignal';
-// import {ONESIGNAL_API_KEY} from 'react-native-dotenv';
+import {ONESIGNAL_API_KEY} from 'react-native-dotenv';
 import {connect} from 'react-redux';
 import {fetchWishlistAll} from '../../../public/redux/actions/Wishlist';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class WishlistScreen extends Component {
   async componentDidMount() {
-    await this.props.fetch(19);
+    let token = await AsyncStorage.getItem('token');
+
+    const config = {
+      headers: {
+        'content-type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    await this.props.fetch(19, config);
     await this.fetchData();
   }
   componentWillUnmount() {
@@ -41,15 +50,14 @@ class WishlistScreen extends Component {
       active: '',
       isFetching: false,
     };
-    // OneSignal.setLogLevel(OneSignal.LOG_LEVEL.DEBUG, OneSignal.LOG_LEVEL.DEBUG);
-    // OneSignal.init(ONESIGNAL_API_KEY);
-
-    // OneSignal.setSubscription(true);
-    // OneSignal.addEventListener('received', this.onReceived);
-    // OneSignal.addEventListener('opened', this.onOpened);
-    // OneSignal.addEventListener('ids', this.onIds);
-    // OneSignal.enableSound(true);
-    // OneSignal.inFocusDisplaying(2);
+    OneSignal.setLogLevel(OneSignal.LOG_LEVEL.DEBUG, OneSignal.LOG_LEVEL.DEBUG);
+    OneSignal.init(ONESIGNAL_API_KEY);
+    OneSignal.setSubscription(true);
+    OneSignal.addEventListener('received', this.onReceived);
+    OneSignal.addEventListener('opened', this.onOpened);
+    OneSignal.addEventListener('ids', this.onIds);
+    OneSignal.enableSound(true);
+    OneSignal.inFocusDisplaying(2);
   }
 
   onRefresh() {
@@ -108,7 +116,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetch: user_id => dispatch(fetchWishlistAll(user_id)),
+  fetch: (user_id, config) => dispatch(fetchWishlistAll(user_id, config)),
 });
 
 export default connect(

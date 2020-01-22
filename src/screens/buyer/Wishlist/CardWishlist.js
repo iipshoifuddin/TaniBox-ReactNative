@@ -51,14 +51,7 @@ class CardWishlist extends Component {
                   />
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={async () => {
-                    const token = await AsyncStorage.getItem('token');
-                    const config = {
-                      headers: {
-                        'content-type': 'application/json',
-                        Authorization: 'Bearer ' + token,
-                      },
-                    };
+                  onPress={() => {
                     // console.warn(token);
                     Alert.alert(
                       'Delete Wishlist',
@@ -70,12 +63,23 @@ class CardWishlist extends Component {
                         },
                         {
                           text: 'Yes',
-                          onPress: () =>
-                            this.props.delete(
-                              this.props.product_id,
-                              this.props.user_id,
+                          onPress: async () => {
+                            let token = await AsyncStorage.getItem('token');
+                            let user_id = await AsyncStorage.getItem('id');
+                            const config = {
+                              headers: {
+                                'content-type': 'application/json',
+                                Authorization: 'Bearer ' + token,
+                              },
+                            };
+                            // console.warn(user_id, this.props.id);
+                            await this.props.delete(
+                              this.props.id,
+                              user_id,
                               config,
-                            ),
+                            );
+                          },
+                          // this.props.delete(this.props.id, user_id, config),
                         },
                       ],
                       {cancelable: false},
@@ -119,8 +123,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  delete: (product_id, user_id) =>
-    dispatch(deleteWishlist(product_id, user_id)),
+  delete: (product_id, user_id, config) =>
+    dispatch(deleteWishlist(product_id, user_id, config)),
 });
 
 export default connect(

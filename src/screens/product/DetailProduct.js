@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -14,55 +14,55 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import axios from 'axios'
-import Carousel from 'react-native-anchor-carousel';
-import { connect } from 'react-redux'
-import { getProduct } from '../../public/redux/actions/product'
-import loadingBlurImage from '../../public/images/loading-blur.jpeg';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import axios from 'axios';
+import {connect} from 'react-redux';
+import {getProduct} from '../../public/redux/actions/product';
 import DetailProductItem from '../../components/DetailProductItem';
+import AsyncStorage from '@react-native-community/async-storage';
 
-const DetailProduct = ({ getProduct, product: { product }, navigation }) => {
-
-  const product_id = navigation.state.params.product_id
+const DetailProduct = ({getProduct, product: {product}, navigation}) => {
+  const product_id = navigation.state.params.product_id;
 
   useEffect(() => {
+    const getSingleProduct = async product_id => {
+      try {
+        const response = await axios.get(
+          `http://34.202.135.29:4000/api/v1/products/show-product/${product_id}`,
+        );
+        getProduct(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getSingleProduct(product_id);
+  }, [getProduct, product_id]);
 
-    const getSingleProduct = async (product_id) => {
-        try {
-            const response = await axios.get(`http://34.202.135.29:4000/api/v1/products/show-product/${product_id}`)
-            getProduct(response)
-        } catch(error) {
-            console.error(error)
-        }
-    }
-
-    getSingleProduct(product_id)
-
-}, [product_id])
-
-    return (
-      <>
-        <Header style={styles.header}>
-          <Left>
-            <Ionicons
-              onPress={() => navigation.navigate('Home')}
-              size={40}
-              name={'ios-arrow-round-back'}
-            />
-          </Left>
-          <Body />
-          <Right />
-        </Header>
-        <DetailProductItem item={product} />
-
-      </>
-    );
-}
+  return (
+    <>
+      <Header style={styles.header}>
+        <Left>
+          <Ionicons
+            onPress={() => navigation.navigate('Home')}
+            size={40}
+            name={'ios-arrow-round-back'}
+          />
+        </Left>
+        <Body>
+          <Text style={styles.title}>{product.name}</Text>
+        </Body>
+        <Right />
+      </Header>
+      <DetailProductItem item={product} />
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
   header: {
     backgroundColor: '#FFFFFF',
+  },
+  title: {
+    fontSize: 20,
   },
   carouselContainer: {
     height: hp('35%'),
@@ -169,10 +169,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-    product: state.product
-})
+  product: state.product,
+});
 
 export default connect(
-    mapStateToProps,
-    { getProduct }
-)(DetailProduct)
+  mapStateToProps,
+  {getProduct},
+)(DetailProduct);
