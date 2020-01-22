@@ -46,7 +46,7 @@ const SignInScreen = props => {
   };
   const loginUser = () => {
     if (!email || !password) {
-      toastr('Please fill out all of this field.', 'danger');
+      toastr('Please fill out all of this field.');
       return;
     }
     setConfig({loading: true, error: false});
