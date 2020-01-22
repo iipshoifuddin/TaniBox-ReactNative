@@ -66,7 +66,6 @@ class CardWishlist extends Component {
                           onPress: async () => {
                             let token = await AsyncStorage.getItem('token');
                             let user_id = await AsyncStorage.getItem('id');
-                            
                             const config = {
                               headers: {
                                 'content-type': 'application/json',

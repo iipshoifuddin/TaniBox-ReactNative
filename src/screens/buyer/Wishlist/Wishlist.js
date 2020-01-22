@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, FlatList, RefreshControl, ActivityIndicator} from 'react-native';
 import CardWishlist from './CardWishlist';
 import OneSignal from 'react-native-onesignal';
-// import {ONESIGNAL_API_KEY} from 'react-native-dotenv';
+import {ONESIGNAL_API_KEY} from 'react-native-dotenv';
 import {connect} from 'react-redux';
 import {fetchWishlistAll} from '../../../public/redux/actions/Wishlist';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -50,15 +50,14 @@ class WishlistScreen extends Component {
       active: '',
       isFetching: false,
     };
-    // OneSignal.setLogLevel(OneSignal.LOG_LEVEL.DEBUG, OneSignal.LOG_LEVEL.DEBUG);
-    // OneSignal.init(ONESIGNAL_API_KEY);
-
-    // OneSignal.setSubscription(true);
-    // OneSignal.addEventListener('received', this.onReceived);
-    // OneSignal.addEventListener('opened', this.onOpened);
-    // OneSignal.addEventListener('ids', this.onIds);
-    // OneSignal.enableSound(true);
-    // OneSignal.inFocusDisplaying(2);
+    OneSignal.setLogLevel(OneSignal.LOG_LEVEL.DEBUG, OneSignal.LOG_LEVEL.DEBUG);
+    OneSignal.init(ONESIGNAL_API_KEY);
+    OneSignal.setSubscription(true);
+    OneSignal.addEventListener('received', this.onReceived);
+    OneSignal.addEventListener('opened', this.onOpened);
+    OneSignal.addEventListener('ids', this.onIds);
+    OneSignal.enableSound(true);
+    OneSignal.inFocusDisplaying(2);
   }
 
   onRefresh() {

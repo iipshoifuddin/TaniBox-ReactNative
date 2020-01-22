@@ -30,7 +30,15 @@ const Profile = ({navigation}) => {
     axios
       .patch(
         `${API_ENDPOINT}profile`,
-        {...data, name_of_seller: data.name},
+        {
+          ...data,
+          name_of_seller: data.name,
+          province_name: data.province1_name,
+          province: data.province1,
+          city: data.city1,
+          address: data.address1,
+          kecamatan: data.kecamatan1,
+        },
         headers('application/json', data.token),
       )
       .then(() => {
@@ -137,9 +145,6 @@ const Profile = ({navigation}) => {
               </Item>
             </ListItem>
           </List>
-<<<<<<< HEAD
-          <ButtonPrimary text="Save" handleSubmit={handleSubmit} />
-=======
           <View style={s.button}>
             <Button
               style={[sGlobal.center, sColor.secondaryBgColor]}
@@ -147,7 +152,6 @@ const Profile = ({navigation}) => {
               <Text>Save</Text>
             </Button>
           </View>
->>>>>>> wishlist
         </View>
       </Content>
     </Container>

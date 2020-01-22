@@ -33,7 +33,7 @@ class ProfileScreen extends Component {
   }
   
   _signOutAsync = async () => {
-    // await OneSignal.setSubscription(false);
+    await OneSignal.setSubscription(false);
     await AsyncStorage.removeItem('token');
     this.props.navigation.navigate('Auth');
   };
@@ -143,6 +143,7 @@ class ProfileScreen extends Component {
 }
 }
 import { Form, Right } from 'native-base';
+import OneSignal from 'react-native-onesignal';
 
 const styles = StyleSheet.create({
 container : {
