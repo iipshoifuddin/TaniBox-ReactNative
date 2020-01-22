@@ -1,8 +1,7 @@
 <h1 align="center">TaniBox</h1>
 <p align="center">
   <img width="250" src="./src/public/images/logo.png"/>
-  <img width="250" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png">
-  <img width="250" src="https://cdn-images-1.medium.com/fit/t/1600/480/1*Ahl24GrglQHwFcp5-_B36Q.png">
+  <img height="100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png">
 </p>
 <p align="center">
   Built with React Native.
@@ -106,8 +105,6 @@ ONESIGNAL_API_KEY=Your Onesignal API Key
           <sub><b>Luhut Andreas</b></sub><br/>
           <sub>(React native, Express Js)</sub>
       </td>
-    </tr>
-    <tr>
       <td align="center">
         <a href="https://github.com/iipshoifuddin">
           <img width="100" src="https://avatars3.githubusercontent.com/u/57024333?s=400&v=4" alt="iipshoifuddin"><br/>
