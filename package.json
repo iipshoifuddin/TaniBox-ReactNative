@@ -19,7 +19,7 @@
     "form-data": "^3.0.0",
     "exit-on-double-back": "^1.0.1",
     "jetifier": "^1.6.5",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "native-base": "^2.13.8",
     "react": "16.9.0",
     "react-native": "0.61.5",
